@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.jandar.dao.UserDao">
+<select id="query"  resultType="com.jandar.pojo.User">
+select * from user
+<where>
+   <if test = "username != null and username != ''">
+    and username = #{username}
+    </if>
+    <if test = "password != null and password != ''">
+    and password = #{password}
+    </if>
+    <if test = "address != null and address != ''">
+    and address = #{address}
+    </if>
+    <if test = "phone != null and phone != ''">
+    and phone = #{phone}
+    </if>
+    <if test = "role != null and role != ''">
+     and role = #{role}
+   </if>
+    <if test = "status != null and status != ''">
+     and status = #{status}
+   </if>
+</where>
+   order by createtime desc limit #{currentnum},#{rows};
+</select>
+
+<select id="query1"  resultType="com.jandar.pojo.User">
+select * from user
+<where>
+   <if test = "username != null and username != ''">
+    and username = #{username}
+    </if>
+    <if test = "password != null and password != ''">
+    and password = #{password}
+    </if>
+    <if test = "address != null and address != ''">
+    and address = #{address}
+    </if>
+    <if test = "phone != null and phone != ''">
+    and phone = #{phone}
+    </if>
+    <if test = "role != null and role != ''">
+     and role = #{role}
+   </if>
+    <if test = "status != null and status != ''">
+     and status = #{status}
+   </if>
+</where>
+   order by createtime desc;
+</select>
+<update id="init">
+update user 
+<set>
+    <if test="password != null and password != ''">
+				password=#{password},
+	</if>
+	<if test="status != null and status != ''">
+				status=#{status},
+	</if>	
+	<if test = "address != null and address != ''">
+    and address = #{address},
+    </if>
+    <if test = "phone != null and phone != ''">
+    and phone = #{phone},
+    </if>
+    <if test = "role != null and role != ''">
+     and role = #{role}
+   </if>
+</set>  
+where username=#{username};
+</update>
+<insert id="create">
+insert into user(username,password,address,phone,role,createtime,userImage,status) values(#{username},#{password},#{address},#{phone},#{role},#{createtime},#{userImage},#{status});
+</insert>
+<select id="querycount" resultType="int">
+select count(*) from user 
+<where>
+   <if test = "username != null and username != ''">
+    and username = #{username}
+    </if>
+    <if test = "password != null and password != ''">
+    and password = #{password}
+    </if>
+    <if test = "address != null and address != ''">
+    and address = #{address}
+    </if>
+    <if test = "phone != null and phone != ''">
+    and phone = #{phone}
+    </if>
+    <if test = "role != null and role != ''">
+     and role = #{role}
+   </if>
+     <if test = "status != null and status != ''">
+     and status = #{status}
+   </if>
+    </where>
+</select>
+
+
+</mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.jandar.dao.xiaoshouDao">
+<select id="query"  resultType="com.jandar.pojo.xiaoshou">
+select * from xiaoshou
+<where>
+   <if test = "xiaoshouId != null and xiaoshouId != 0">
+     and xiaoshouId = #{xiaoshouId}
+   </if>
+   <if test = "kucunId != null and kucunId != 0">
+    and kucunId= #{kucunId}
+    </if>
+    <if test = "goodsNumber != null and goodsNumber != ''">
+    and goodsNumber= #{goodsNumber}
+    </if>
+    <if test = "sumPrice != null and sumPrice != ''">
+    and sumPrice= #{sumPrice}
+    </if>
+    <if test = "kehuName != null and kehuName != ''">
+    and kehuName = #{kehuName}
+    </if>
+    <if test = "username != null and username != ''">
+    and username = #{username}
+    </if>
+    <if test = "status != null and status != ''">
+    and status = #{status}
+    </if>
+    <if test = "createTime != null and createTime != ''">
+    and createTime = #{createTime}
+    </if>
+    <if test = "chukuTime != null and chukuTime != ''">
+    and chukuTime = #{chukuTime}
+    </if>
+    
+</where>
+   order by createTime desc limit #{currentnum},#{rows};
+</select>
+
+<select id="queryBytime"  resultType="com.jandar.pojo.xiaoshou">
+select * from xiaoshou 
+<where>
+   <if test = "status != null and status != ''">
+    and status = #{status}
+    </if>
+     <if test = "username != null and username != ''">
+    and username = #{username}
+    </if>
+     <if test = "chukuTime != null and chukuTime != ''">
+    and chukuTime  like CONCAT(CONCAT('%', #{chukuTime}), '%')
+    </if>
+</where>  
+</select>
+<select id="querycount" resultType="int">
+select count(*) from xiaoshou 
+<where>
+  <if test = "xiaoshouId != null and xiaoshouId != 0">
+     and xiaoshouId = #{xiaoshouId}
+   </if>
+   <if test = "kucunId != null and kucunId != 0">
+    and kucunId= #{kucunId}
+    </if>
+    <if test = "goodsNumber != null and goodsNumber != ''">
+    and goodsNumber= #{goodsNumber}
+    </if>
+    <if test = "sumPrice != null and sumPrice != ''">
+    and sumPrice= #{sumPrice}
+    </if>
+     <if test = "kehuName != null and kehuName != ''">
+    and kehuName = #{kehuName}
+    </if>
+    <if test = "username != null and username != ''">
+    and username = #{username}
+    </if>
+    <if test = "status != null and status != ''">
+    and status = #{status}
+    </if>
+    <if test = "createTime != null and createTime != ''">
+    and createTime = #{createTime}
+    </if>
+    <if test = "chukuTime != null and chukuTime != ''">
+    and chukuTime = #{chukuTime}
+    </if>
+    </where>
+</select>
+<insert id="insert">
+insert into xiaoshou(kucunId,goodsNumber,sumPrice,kehuName,username,status,createTime) values(#{kucunId},#{goodsNumber},#{sumPrice},#{kehuName},#{username},#{status},#{createTime});
+
+</insert>
+<update id="update">
+update xiaoshou set status=#{status} , chukuTime = #{chukuTime} where xiaoshouId=#{xiaoshouId};
+</update>
+</mapper>

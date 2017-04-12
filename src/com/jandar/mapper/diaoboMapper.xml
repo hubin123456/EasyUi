@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.jandar.dao.diaoboDao">
+	<select id="query" resultType="com.jandar.pojo.diaobo">
+		select * from diaobo
+		<where>
+			<if test="diaoboId != null and diaoboId != 0">
+				and diaoboId = #{diaoboId}
+			</if>
+			<if test="kucunId != null and kucunId != 0">
+				and kucunId = #{kucunId}
+			</if>
+			<if test="warehouseName != null and warehouseName != ''">
+				and warehouseName = #{warehouseName}
+			</if>
+			<if test="warehouseName1 != null and warehouseName1 != ''">
+				and warehouseName1 = #{warehouseName1}
+			</if>
+			<if test="diaoboNumber != null and diaoboNumber != ''">
+				and diaoboNumber = #{diaoboNumber}
+			</if>
+			<if test="createTime != null and createTime != ''">
+				and createTime like CONCAT(CONCAT('%', #{createTime}), '%')
+			</if>
+
+		</where>
+		order by createTime desc limit #{currentnum},#{rows};
+	</select>
+
+	<select id="query1" resultType="com.jandar.pojo.diaobo">
+		select * from diaobo
+		<where>
+			<if test="diaoboId != null and diaoboId != 0">
+				and diaoboId = #{diaoboId}
+			</if>
+			<if test="kucunId != null and kucunId != 0">
+				and kucunId = #{kucunId}
+			</if>
+			<if test="warehouseName != null and warehouseName != ''">
+				and warehouseName = #{warehouseName}
+			</if>
+			<if test="warehouseName1 != null and warehouseName1 != ''">
+				and warehouseName1 = #{warehouseName1}
+			</if>
+			<if test="diaoboNumber != null and diaoboNumber != ''">
+				and diaoboNumber = #{diaoboNumber}
+			</if>
+			<if test="createTime != null and createTime != ''">
+				and createTime like CONCAT(CONCAT('%', #{createTime}), '%')
+			</if>
+
+		</where>
+		order by createTime desc ;
+	</select>
+	<select id="querycount" resultType="int">
+		select count(*) from diaobo
+		<where>
+			<if test="diaoboId != null and diaoboId != 0">
+				and diaoboId = #{diaoboId}
+			</if>
+			<if test="kucunId != null and kucunId != 0">
+				and kucunId = #{kucunId}
+			</if>
+			<if test="warehouseName != null and warehouseName != ''">
+				and warehouseName = #{warehouseName}
+			</if>
+			<if test="warehouseName1 != null and warehouseName1 != ''">
+				and warehouseName1 = #{warehouseName1}
+			</if>
+			<if test="diaoboNumber != null and diaoboNumber != ''">
+				and diaoboNumber = #{diaoboNumber}
+			</if>
+			<if test="createTime != null and createTime != ''">
+				and createTime like CONCAT(CONCAT('%', #{createTime}), '%')
+			</if>
+
+		</where>
+	</select>
+
+
+
+	<insert id="insert">
+	
+	insert into diaobo(warehouseName,kucunId,diaoboNumber,warehouseName1,createTime)
+		values(#{warehouseName},#{kucunId},#{diaoboNumber},#{warehouseName1},#{createTime})
+	</insert>
+	
+</mapper>

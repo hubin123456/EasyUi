@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.jandar.dao.caozuoDao">
+<select id="query"  resultType="com.jandar.pojo.caozuo">
+select * from caozuo
+<where>
+   <if test = "caozuoId != null and caozuoId != 0">
+     and caozuoId = #{caozuoId}
+   </if>
+   <if test = "goodsName != null and goodsName != ''">
+     and goodsName = #{goodsName}
+   </if>
+   <if test = "goodsImage != null and goodsImage != ''">
+     and goodsImage = #{goodsImage}
+   </if>
+   <if test = "goodsLei != null and goodsLei != ''">
+     and goodsLei = #{goodsLei}
+   </if>
+   <if test = "goodsUnit != null and goodsUnit != ''">
+     and goodsUnit = #{goodsUnit}
+   </if>
+   <if test = "goodsPrice != null and goodsPrice != ''">
+     and goodsPrice = #{goodsPrice}
+   </if>
+   <if test = "goodsbeizhu != null and goodsbeizhu != ''">
+     and goodsbeizhu = #{goodsbeizhu}
+   </if>
+   <if test = "supplierName != null and supplierName != ''">
+     and supplierName = #{supplierName}
+   </if>
+    <if test = "warehouseName != null and warehouseName != ''">
+    and warehouseName= #{warehouseName}
+    </if>
+    <if test = "username != null and username != ''">
+    and username = #{username}
+    </if>
+    <if test = "status != null and status != ''">
+    and status = #{status}
+    </if>
+    <if test = "createTime != null and createTime != ''">
+    and createTime = #{createTime}
+    </if>
+    <if test = "lukuTime != null and lukuTime != ''">
+    and lukuTime = #{lukuTime}
+    </if>
+    
+</where>
+   order by createTime desc limit #{currentnum},#{rows};
+</select>
+
+<select id="queryBytime"  resultType="com.jandar.pojo.caozuo">
+select * from caozuo 
+<where>
+   <if test = "status != null and status != ''">
+    and status = #{status}
+    </if>
+     <if test = "username != null and username != ''">
+    and username = #{username}
+    </if>
+     <if test = "lukuTime != null and lukuTime != ''">
+    and lukuTime  like CONCAT(CONCAT('%', #{lukuTime}), '%')
+    </if>
+</where>  
+
+</select>
+<select id="querycount" resultType="int">
+select count(*) from caozuo 
+<where>
+  <if test = "caozuoId != null and caozuoId != 0">
+     and caozuoId = #{caozuoId}
+   </if>
+  <if test = "goodsName != null and goodsName != ''">
+     and goodsName = #{goodsName}
+   </if>
+   <if test = "goodsImage != null and goodsImage != ''">
+     and goodsImage = #{goodsImage}
+   </if>
+   <if test = "goodsLei != null and goodsLei != ''">
+     and goodsLei = #{goodsLei}
+   </if>
+   <if test = "goodsUnit != null and goodsUnit != ''">
+     and goodsUnit = #{goodsUnit}
+   </if>
+   <if test = "goodsPrice != null and goodsPrice != ''">
+     and goodsPrice = #{goodsPrice}
+   </if>
+   <if test = "goodsbeizhu != null and goodsbeizhu != ''">
+     and goodsbeizhu = #{goodsbeizhu}
+   </if>
+   <if test = "supplierName != null and supplierName != ''">
+     and supplierName = #{supplierName}
+   </if>
+    <if test = "warehouseName != null and warehouseName != ''">
+    and warehouseName= #{warehouseName}
+    </if>
+    <if test = "username != null and username != ''">
+    and username = #{username}
+    </if>
+    <if test = "status != null and status != ''">
+    and status = #{status}
+    </if>
+    <if test = "createTime != null and createTime != ''">
+    and createTime = #{createTime}
+    </if>
+    <if test = "lukuTime != null and lukuTime != ''">
+    and lukuTime = #{lukuTime}
+    </if>
+    </where>
+</select>
+<insert id="insert">
+insert into caozuo(goodsName,goodsImage,goodsLei,goodsUnit,goodsPrice,goodsbeizhu,supplierName,goodsNumber,sumPrice,warehouseName,username,status,createTime) values(#{goodsName},#{goodsImage},#{goodsLei},#{goodsUnit},#{goodsPrice},#{goodsbeizhu},#{supplierName},#{goodsNumber},#{sumPrice},#{warehouseName},#{username},#{status},#{createTime});
+
+</insert>
+<update id="update">
+update caozuo set status=#{status} , lukuTime = #{lukuTime} where caozuoId=#{caozuoId};
+</update>
+</mapper>

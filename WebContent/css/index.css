@@ -1,0 +1,16 @@
+@CHARSET "UTF-8";
+*{margin:auto 0;}
+.tou{width:100%;height:60px;border-bottom-style:solid;}
+.daohang{width:200px;height:500px;}
+.daohang ul{width:200px;height:auto;padding-left: 0px;}
+.daohang ul li{width:200px;height:70px;display:block;text-align:center;}
+.daohang ul li a{color:#ffffff;line-height:70px;}
+.daohang ul li:hover{background:#15141e;width:200px;height:70px;}
+.shengfen{position:absolute;right:60px;color:#666666;font-size:14px;top:30px;}
+.touxiang{position:absolute;right:20px;top:5px;}
+.tongzhi{position:absolute;right:300px;top:5px;}
+.tongzhi1{position:absolute;right:400px;top:5px;}
+.neirong{width:1100px;height:500px;position:absolute;left:220px;}
+.neirong1{width:1100px;height:60px;position:relative;top:0px;left:20px;background:#d9d2e9;}
+.neirong2{width:1100px;height:500px;position:relative;top:30px;left:20px;}
+.button{width:50px;height:30px;background:#0ce3e3;color:#ffffff;}

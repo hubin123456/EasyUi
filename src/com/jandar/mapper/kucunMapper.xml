@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.jandar.dao.kucunDao">
+	<select id="query" resultType="com.jandar.pojo.kucun">
+		select * from kucun
+		<where>
+			<if test="kucunId != null and kucunId != 0">
+				and kucunId = #{kucunId}
+			</if>
+			 <if test = "goodsName != null and goodsName != ''">
+     and goodsName = #{goodsName}
+   </if>
+   <if test = "goodsImage != null and goodsImage != ''">
+     and goodsImage = #{goodsImage}
+   </if>
+   <if test = "goodsLei != null and goodsLei != ''">
+     and goodsLei = #{goodsLei}
+   </if>
+   <if test = "goodsUnit != null and goodsUnit != ''">
+     and goodsUnit = #{goodsUnit}
+   </if>
+   <if test = "goodsPrice != null and goodsPrice != ''">
+     and goodsPrice = #{goodsPrice}
+   </if>
+   <if test = "goodsbeizhu != null and goodsbeizhu != ''">
+     and goodsbeizhu = #{goodsbeizhu}
+   </if>
+   <if test = "supplierName != null and supplierName != ''">
+     and supplierName = #{supplierName}
+   </if>
+			<if test="kucunNumber != null and kucunNumber != ''">
+				and kucunNumber = #{kucunNumber}
+			</if>
+			<if test="warehouseName != null and warehouseName != ''">
+				and warehouseName = #{warehouseName}
+			</if>
+			<if test="kucunyujing != null and kucunyujing != ''">
+				and goodsyujing = #{goodsyujing}
+			</if>
+			<if test="kucunyujing1 != null and kucunyujing1 != ''">
+				and goodsyujing1 = #{goodsyujing1}
+			</if>
+			<if test="createTime != null and createTime != ''">
+				and createTime like CONCAT(CONCAT('%', #{createTime}), '%')
+			</if>
+
+		</where>
+		order by createTime desc limit #{currentnum},#{rows};
+	</select>
+
+	<select id="query1" resultType="com.jandar.pojo.kucun">
+		select * from kucun
+		<where>
+			<if test="kucunId != null and kucunId != 0">
+				and kucunId = #{kucunId}
+			</if>
+			 <if test = "goodsName != null and goodsName != ''">
+     and goodsName = #{goodsName}
+   </if>
+   <if test = "goodsImage != null and goodsImage != ''">
+     and goodsImage = #{goodsImage}
+   </if>
+   <if test = "goodsLei != null and goodsLei != ''">
+     and goodsLei = #{goodsLei}
+   </if>
+   <if test = "goodsUnit != null and goodsUnit != ''">
+     and goodsUnit = #{goodsUnit}
+   </if>
+   <if test = "goodsPrice != null and goodsPrice != ''">
+     and goodsPrice = #{goodsPrice}
+   </if>
+   <if test = "goodsbeizhu != null and goodsbeizhu != ''">
+     and goodsbeizhu = #{goodsbeizhu}
+   </if>
+   <if test = "supplierName != null and supplierName != ''">
+     and supplierName = #{supplierName}
+   </if>
+			<if test="kucunNumber != null and kucunNumber != ''">
+				and kucunNumber = #{kucunNumber}
+			</if>
+			<if test="warehouseName != null and warehouseName != ''">
+				and warehouseName = #{warehouseName}
+			</if>
+			<if test="kucunyujing != null and kucunyujing != ''">
+				and goodsyujing = #{goodsyujing}
+			</if>
+			<if test="kucunyujing1 != null and kucunyujing1 != ''">
+				and goodsyujing1 = #{goodsyujing1}
+			</if>
+			<if test="createTime != null and createTime != ''">
+				and createTime like CONCAT(CONCAT('%', #{createTime}), '%')
+			</if>
+
+		</where>
+		order by createTime desc ;
+	</select>
+	<select id="querycount" resultType="int">
+		select count(*) from kucun
+		<where>
+			<if test="kucunId != null and kucunId != 0">
+				and kucunId = #{kucunId}
+			</if>
+			 <if test = "goodsName != null and goodsName != ''">
+     and goodsName = #{goodsName}
+   </if>
+   <if test = "goodsImage != null and goodsImage != ''">
+     and goodsImage = #{goodsImage}
+   </if>
+   <if test = "goodsLei != null and goodsLei != ''">
+     and goodsLei = #{goodsLei}
+   </if>
+   <if test = "goodsUnit != null and goodsUnit != ''">
+     and goodsUnit = #{goodsUnit}
+   </if>
+   <if test = "goodsPrice != null and goodsPrice != ''">
+     and goodsPrice = #{goodsPrice}
+   </if>
+   <if test = "goodsbeizhu != null and goodsbeizhu != ''">
+     and goodsbeizhu = #{goodsbeizhu}
+   </if>
+   <if test = "supplierName != null and supplierName != ''">
+     and supplierName = #{supplierName}
+   </if>
+			<if test="kucunNumber != null and kucunNumber != ''">
+				and kucunNumber = #{kucunNumber}
+			</if>
+			<if test="warehouseName != null and warehouseName != ''">
+				and warehouseName = #{warehouseName}
+			</if>
+			<if test="kucunyujing != null and kucunyujing != ''">
+				and goodsyujing = #{goodsyujing}
+			</if>
+			<if test="kucunyujing1 != null and kucunyujing1 != ''">
+				and goodsyujing1 = #{goodsyujing1}
+			</if>
+			<if test="createTime != null and createTime != ''">
+				and createTime like CONCAT(CONCAT('%', #{createTime}), '%')
+			</if>
+		</where>
+	</select>
+
+
+
+	<insert id="insert">
+	
+	insert into kucun(goodsName,goodsImage,goodsLei,goodsUnit,goodsPrice,goodsbeizhu,supplierName,kucunNumber,kucunyujing1,kucunyujing,warehouseName,createTime)
+		values(#{goodsName},#{goodsImage},#{goodsLei},#{goodsUnit},#{goodsPrice},#{goodsbeizhu},#{supplierName}, #{kucunNumber}, #{kucunyujing1}, #{kucunyujing},#{warehouseName},#{createTime})
+	</insert>
+	<update id="update">
+		update kucun
+		<set>
+			<if test="createTime != null and createTime != ''">
+				createTime = #{createTime} ,
+			</if>
+			<if test="kucunNumber != null and kucunNumber != ''">
+				kucunNumber = #{kucunNumber} ,
+			</if>
+			<if test="kucunyujing != null and kucunyujing != ''">
+				kucunyujing = #{kucunyujing} ,
+			</if>
+			<if test="kucunyujing1 != null and kucunyujing1 != ''">
+				kucunyujing1 = #{kucunyujing1}
+			</if>
+		</set>
+		where kucunId = #{kucunId};
+	</update>
+</mapper>

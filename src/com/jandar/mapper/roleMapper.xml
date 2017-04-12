@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.jandar.dao.roleDao">
+<select id="query"  resultType="com.jandar.pojo.role">
+select * from role
+<where>
+   <if test = "role != null and role != ''">
+     and role = #{role}
+   </if>
+  
+</where>
+limit #{currentnum},#{rows};
+</select>
+
+<select id="query1"  resultType="com.jandar.pojo.role">
+select * from role
+<where>
+   <if test = "role != null and role != ''">
+     and role = #{role}
+   </if>
+</where>
+</select>
+<select id="querycount" resultType="int">
+select count(*) from role
+<where>
+   <if test = "role != null and role != ''">
+     and role = #{role}
+   </if>
+    </where>
+</select>
+<insert id="insert">
+insert into role(role) values(#{role});
+
+</insert>
+
+</mapper>

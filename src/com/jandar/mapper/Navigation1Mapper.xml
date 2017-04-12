@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.jandar.dao.Navigation1Dao">
+<select id="query"  resultType="com.jandar.pojo.Navigation1">
+select * from navigation1
+<where>
+   <if test = "role != null and role != ''">
+     and role = #{role}
+   </if>
+    <if test = "navigationId != null and navigationId != 0">
+     and navigationId = #{navigationId}
+   </if>
+</where>
+   order by createtime desc;
+</select>
+<select id="querycount" resultType="int">
+select count(*) from navigation1 
+<where>
+ <if test = "role != null and role != ''">
+     and role = #{role}
+   </if>
+   <if test = "navigationId != null and navigationId != 0">
+     and navigationId = #{navigationId}
+   </if>
+   <if test = "navigation1 != null and navigation1 != ''">
+     and navigation1 = #{navigation1}
+   </if>
+ </where>
+</select>
+<insert id="insert">
+  insert into navigation1(navigationId, url, image, createtime, id, navigation1, role) values(#{navigationId}, #{url}, #{image}, #{createtime}, #{id}, #{navigation1}, #{role});
+</insert>
+<delete id="delete">
+   delete from navigation1 where role = #{role};
+</delete>
+</mapper>

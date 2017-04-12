@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.jandar.dao.goodsDao">
+<select id="query"  resultType="com.jandar.pojo.goods">
+select * from goods
+<where>
+ <if test = "goodsId != null and goodsId != 0">
+     and goodsId = #{goodsId}
+   </if>
+   <if test = "goodsName != null and goodsName != ''">
+     and goodsName = #{goodsName}
+   </if>
+   <if test = "goodsImage != null and goodsImage != ''">
+     and goodsImage = #{goodsImage}
+   </if>
+   <if test = "goodsLei != null and goodsLei != ''">
+     and goodsLei = #{goodsLei}
+   </if>
+   <if test = "goodsUnit != null and goodsUnit != ''">
+     and goodsUnit = #{goodsUnit}
+   </if>
+   <if test = "goodsPrice != null and goodsPrice != ''">
+     and goodsPrice = #{goodsPrice}
+   </if>
+   <if test = "goodsbeizhu != null and goodsbeizhu != ''">
+     and goodsbeizhu = #{goodsbeizhu}
+   </if>
+   <if test = "supplierName != null and supplierName != ''">
+     and supplierName = #{supplierName}
+   </if>
+   <if test = "status != null and status != ''">
+     and status = #{status}
+   </if>
+   <if test = "createTime != null and createTime != ''">
+     and createTime like CONCAT(CONCAT('%', #{createTime}), '%')
+   </if>
+   
+</where>
+   order by createTime desc limit #{currentnum},#{rows};
+</select>
+
+<select id="query1"  resultType="com.jandar.pojo.goods">
+select * from goods
+<where>
+ <if test = "goodsId != null and goodsId != 0">
+     and goodsId = #{goodsId}
+   </if>
+   <if test = "goodsName != null and goodsName != ''">
+     and goodsName = #{goodsName}
+   </if>
+   <if test = "goodsImage != null and goodsImage != ''">
+     and goodsImage = #{goodsImage}
+   </if>
+   <if test = "goodsLei != null and goodsLei != ''">
+     and goodsLei = #{goodsLei}
+   </if>
+   <if test = "goodsUnit != null and goodsUnit != ''">
+     and goodsUnit = #{goodsUnit}
+   </if>
+   <if test = "goodsPrice != null and goodsPrice != ''">
+     and goodsPrice = #{goodsPrice}
+   </if>
+   <if test = "goodsbeizhu != null and goodsbeizhu != ''">
+     and goodsbeizhu = #{goodsbeizhu}
+   </if>
+   <if test = "supplierName != null and supplierName != ''">
+     and supplierName = #{supplierName}
+   </if>
+   <if test = "status != null and status != ''">
+     and status = #{status}
+   </if>
+   <if test = "createTime != null and createTime != ''">
+     and createTime like CONCAT(CONCAT('%', #{createTime}), '%')
+   </if>
+   
+</where>
+   order by createTime desc ;
+</select>
+<select id="querycount" resultType="int">
+select count(*) from goods 
+<where>
+ <if test = "goodsId != null and goodsId != 0">
+     and goodsId = #{goodsId}
+   </if>
+   <if test = "goodsName != null and goodsName != ''">
+     and goodsName = #{goodsName}
+   </if>
+   <if test = "goodsImage != null and goodsImage != ''">
+     and goodsImage = #{goodsImage}
+   </if>
+   <if test = "goodsLei != null and goodsLei != ''">
+     and goodsLei = #{goodsLei}
+   </if>
+   <if test = "goodsUnit != null and goodsUnit != ''">
+     and goodsUnit = #{goodsUnit}
+   </if>
+   <if test = "goodsPrice != null and goodsPrice != ''">
+     and goodsPrice = #{goodsPrice}
+   </if>
+   <if test = "goodsbeizhu != null and goodsbeizhu != ''">
+     and goodsbeizhu = #{goodsbeizhu}
+   </if>
+   <if test = "supplierName != null and supplierName != ''">
+     and supplierName = #{supplierName}
+   </if>
+   <if test = "status != null and status != ''">
+     and status = #{status}
+   </if>
+   <if test = "createTime != null and createTime != ''">
+     and createTime like CONCAT(CONCAT('%', #{createTime}), '%')
+   </if>
+   
+</where>
+</select>
+
+
+
+<insert id="insert">insert into goods(goodsName,goodsImage,goodsLei,goodsUnit,goodsPrice,goodsbeizhu,supplierName,createTime,status) values(#{goodsName}, #{goodsImage}, #{goodsLei},  #{goodsUnit}, #{goodsPrice},#{goodsbeizhu},#{supplierName},#{createTime},#{status})</insert>
+<update id="update">update goods 
+<set> 
+<if test ="goodsName != null and goodsName != ''">
+      goodsName = #{goodsName} ,
+</if>
+<if test ="createTime != null and createTime != ''">
+      createTime = #{createTime} ,
+</if>
+<if test ="goodsImage != null and goodsImage != ''">
+      goodsImage = #{goodsImage} ,
+</if> 
+<if test ="goodsLei != null and goodsLei != ''">
+      goodsLei = #{goodsLei} ,
+</if>  
+<if test ="goodsUnit != null and goodsUnit != ''">
+      goodsUnit = #{goodsUnit},
+</if>  
+<if test ="goodsPrice != null and goodsPrice != ''">
+      goodsPrice = #{goodsPrice}, 
+</if>  
+<if test = "goodsbeizhu != null and goodsbeizhu != ''">
+     and goodsbeizhu = #{goodsbeizhu},
+   </if>
+<if test ="supplierName != null and supplierName != ''">
+      supplierName = #{supplierName}, 
+</if>  
+<if test = "status != null and status != ''">
+      status = #{status}
+   </if>
+</set>
+where goodsId = #{goodsId};
+</update>
+</mapper>

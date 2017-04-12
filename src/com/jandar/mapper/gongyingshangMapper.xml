@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.jandar.dao.gongyingshangDao">
+<select id="query"  resultType="com.jandar.pojo.gongyingshang">
+  select * from supplier
+  <where>
+      <if test = "supplierName">
+         and supplierName = #{supplierName}
+      </if>
+      <if test = "supplierPhone">
+         and supplierPhone = #{supplierPhone}
+      </if>
+      <if test = "supplierAddress">
+         and supplierAddress= #{supplierAddress}
+      </if>
+  </where>
+  order by createTime desc limit #{currentnum},#{rows};
+</select>
+
+<select id="querycount" resultType="int">
+ select count(*) from supplier
+ <where>
+  <if test = "supplierName">
+         and supplierName = #{supplierName}
+      </if>
+      <if test = "supplierPhone">
+         and supplierPhone = #{supplierPhone}
+      </if>
+      <if test = "supplierAddress">
+         and supplierAddress= #{supplierAddress}
+      </if>
+      </where>
+</select>
+
+<insert id="insert">
+   insert into supplier values(#{supplierName}, #{supplierPhone}, #{supplierAddress}, #{createTime});
+</insert>
+<update id="update">
+   update supplier 
+   <set>
+      <if test = "supplierPhone != '' and supplierPhone != null">
+          supplierPhone = #{supplierPhone},
+      </if>
+      <if test = "supplierAddress != '' and supplierAddress != null">
+          supplierAddress = #{supplierAddress},
+      </if>
+      <if test = "createTime != '' and createTime != null">
+          createTime = #{createTime}
+      </if>
+      where supplierName = #{supplierName};
+   </set>
+</update>
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.jandar.dao.warehouseDao">
+<select id="query"  resultType="com.jandar.pojo.warehouse">
+select * from warehouse
+<where>
+   <if test = "warehouseName != null and warehouseName != ''">
+     and warehouseName = #{warehouseName}
+   </if>
+   <if test = "warehouseAddress != null and warehouseAddress != ''">
+     and warehouseAddress = #{warehouseAddress}
+   </if>
+   <if test = "warehouseSize != null and warehouseSize != ''">
+     and warehouseSize = #{warehouseSize}
+   </if>
+   
+</where>
+   order by createTime desc limit #{currentnum},#{rows};
+</select>
+<insert id="insert">
+insert into warehouse values(#{warehouseName}, #{warehouseAddress}, #{warehouseSize}, #{createTime});
+</insert>
+<update id="update">
+update warehouse 
+<set>
+ <if test="warehouseAddress != null and warehouseAddress != ''">
+       warehouseAddress = #{warehouseAddress}       ,
+ </if>
+ <if test="warehouseSize != null and warehouseSize != ''">
+       warehouseSize = #{warehouseSize}       ,
+ </if>
+ 
+</set>
+where warehouseName = #{warehouseName};
+</update>
+<select id="querycount" resultType="int">
+select count(*) from warehouse
+<where>
+   <if test = "warehouseName != null and warehouseName != ''">
+     and warehouseName = #{warehouseName}
+   </if>
+   <if test = "warehouseAddress != null and warehouseAddress != ''">
+     and warehouseAddress = #{warehouseAddress}
+   </if>
+   <if test = "warehouseSize != null and warehouseSize != ''">
+     and warehouseSize = #{warehouseSize}
+   </if>
+  
+    </where>
+</select>
+
+
+</mapper>

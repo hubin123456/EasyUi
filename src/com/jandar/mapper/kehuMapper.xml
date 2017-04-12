@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.jandar.dao.kehuDao">
+<select id="query"  resultType="com.jandar.pojo.kehu">
+  select * from kehu
+  <where>
+      <if test = "kehuName">
+         and kehuName = #{kehuName}
+      </if>
+      <if test = "kehuPhone">
+         and kehuPhone = #{kehuPhone}
+      </if>
+      <if test = "kehuAddress">
+         and kehuAddress= #{kehuAddress}
+      </if>
+  </where>
+  order by createTime desc limit #{currentnum},#{rows};
+</select>
+
+<select id="querycount" resultType="int">
+ select count(*) from kehu
+ <where>
+      <if test = "kehuName">
+         and kehuName = #{kehuName}
+      </if>
+      <if test = "kehuPhone">
+         and kehuPhone = #{kehuPhone}
+      </if>
+      <if test = "kehuAddress">
+         and kehuAddress= #{kehuAddress}
+      </if>
+  </where>
+</select>
+
+<insert id="insert">
+   insert into kehu(kehuName, kehuAddress, kehuPhone, createTime) values(#{kehuName}, #{kehuAddress}, #{kehuPhone}, #{createTime});
+</insert>
+
+<update id="update">
+   update kehu
+   <set>
+      <if test = "kehuPhone != '' and kehuPhone != null">
+          kehuPhone = #{kehuPhone},
+      </if>
+      <if test = "kehuAddress != '' and kehuAddress != null">
+          kehuAddress = #{kehuAddress},
+      </if>
+      <if test = "createTime != '' and createTime != null">
+          createTime = #{createTime}
+      </if>
+      where kehuName = #{kehuName};
+   </set>
+</update>
+</mapper>

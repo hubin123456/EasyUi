@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd" >
+<mapper namespace="com.jandar.dao.NavigationDao">
+<select id="query"  resultType="com.jandar.pojo.Navigation">
+select * from navigation
+<where>
+   <if test = "navigation != null and navigation != ''">
+     and navigation = #{navigation}
+   </if>
+  </where>
+</select>
+<select id="querycount" resultType="int">
+select count(*) from navigation 
+</select>
+</mapper>
