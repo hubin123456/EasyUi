@@ -48,6 +48,7 @@ public class jinghuoAction {
     @Autowired
     private xiaoshouServiceImpl xiaoshouserviceImpl;
 
+    //入库管理datagrid
     @RequestMapping(value = "/jinghuo1")
     @ResponseBody
     public JSONObject jinghuo1(ModelMap model, caozuo caozuo,
@@ -65,6 +66,7 @@ public class jinghuoAction {
         return json;
     }
 
+    //财务折线图点击具体的点查看具体的datagrid数据
     @RequestMapping(value = "/caozuozhexiantu")
     @ResponseBody
     public JSONObject caozuozhexiantu(ModelMap model, xiaoshou caozuo,
@@ -80,13 +82,16 @@ public class jinghuoAction {
         String tiaojian = request.getParameter("tiaojian");
         JSONObject json = new JSONObject();
         String time = "";
+        //如果month为空   x+1就为当前月份  判断小于9 前面加-
         if (month == "") {
             if (Integer.valueOf(x) <= 8) {
                 time = year + "-0" + String.valueOf(Integer.valueOf(x) + 1);
             } else {
                 time = year + "-" + String.valueOf(Integer.valueOf(x) + 1);
             }
-        } else {
+        } 
+        //month不为空 x+1就是当前号数，判断month小于9  号小于9
+        else {
             if (Integer.valueOf(month) <= 8) {
                 if (Integer.valueOf(x) <= 8) {
                     time = year + "-0" + month + "-0"
@@ -105,6 +110,7 @@ public class jinghuoAction {
                 }
             }
         }
+        //上段代码算出时间,下段判断是收入还是支出
         if (tiaojian.equals("收入")) {
             xiaoshou xiaoshou = new xiaoshou();
             System.out.println(time);
@@ -168,8 +174,6 @@ public class jinghuoAction {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("xiaoshouId", caozuo2.getXiaoshouId());
             jsonObject.put("kehuName", caozuo2.getKehuName());
-            // jsonObject.put("kucunId", caozuo2.getKucunId());
-            // jsonObject.put("createTime", caozuo2.getCreateTime());
             kucun kucun = new kucun();
             kucun.setKucunId(caozuo2.getKucunId());
             jsonObject.put("goodsImage",
@@ -202,6 +206,7 @@ public class jinghuoAction {
         return json;
     }
 
+    //combobox等待入库的集合
     @RequestMapping(value = "/jinghuoselect")
     @ResponseBody
     public JSONArray jinghuoselect(ModelMap model, caozuo caozuo,
@@ -215,6 +220,7 @@ public class jinghuoAction {
         return JSONArray.fromObject(list);
     }
 
+    //撤销
     @RequestMapping(value = "/tuihuo")
     @ResponseBody
     public JSONObject tuihuo(ModelMap model, caozuo caozuo,
@@ -231,6 +237,7 @@ public class jinghuoAction {
         }
     }
 
+    //入库
     @RequestMapping(value = "/ruku")
     @ResponseBody
     public JSONObject ruku(ModelMap model, caozuo caozuo,
@@ -259,6 +266,7 @@ public class jinghuoAction {
             kucun.setRows(kucunserviceImpl.querycount(new kucun()));
             String time = TimeUtil.timeToString(TimeUtil.currentTime());
             int num = 0;
+            //查看库存存不存在
             if (kucunserviceImpl.query(kucun).size() == 0) {
                 kucun.setCreateTime(time);
                 kucun.setKucunyujing("50");
@@ -294,6 +302,7 @@ public class jinghuoAction {
         }
     }
 
+    //采购订单的查询
     @RequestMapping(value = "/caigouruku")
     @ResponseBody
     public JSONObject caigouruku(ModelMap model, caozuo caozuo,
@@ -316,6 +325,7 @@ public class jinghuoAction {
 
     }
 
+    //采购订单的导出
     @RequestMapping(value = "/caigoudingdanExport")
     public void caigoudingdanExport(ModelMap model, caozuo caozuo,
             HttpServletRequest request, HttpServletResponse response) {
@@ -323,6 +333,9 @@ public class jinghuoAction {
         caozuo.setCurrentnum(0);
         if (caozuo.getStatus().equals("全部")) {
             caozuo.setStatus("");
+        }
+        if (caozuo.getUsername().equals("admin")) {
+            caozuo.setUsername("");
         }
         caozuo.setRows(caozuoserviceImpl.querycount(caozuo));
         List<caozuo> list = caozuoserviceImpl.query(caozuo);
@@ -355,6 +368,7 @@ public class jinghuoAction {
         }
     }
 
+    //采购
     @RequestMapping(value = "/jinghuo3")
     @ResponseBody
     public String createcaigoudan(ModelMap map, caozuo caozuo,

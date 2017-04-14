@@ -29,6 +29,7 @@ public class kehuAction {
     @Autowired
     private kehuServiceImpl kehuServiceImpl;
 
+    //combobox 显示客户
     @RequestMapping(value = "/kehuselect")
     @ResponseBody
     public JSONArray kehushangselect(ModelMap map, HttpServletRequest request,
@@ -42,6 +43,7 @@ public class kehuAction {
         return jsonArray;
     }
 
+    //创建客户
     @RequestMapping(value = "/createKehu")
     @ResponseBody
     public String createKehu(ModelMap map, kehu kehu,
@@ -61,6 +63,7 @@ public class kehuAction {
         }
     }
 
+    //编辑客户
     @RequestMapping(value = "/editKehu")
     @ResponseBody
     public String editKehu(ModelMap map, kehu kehu, HttpServletRequest request,
@@ -78,6 +81,7 @@ public class kehuAction {
         }
     }
 
+    //datagrid显示客户
     @RequestMapping(value = "/kehu")
     @ResponseBody
     public JSONObject gongyingshang(ModelMap map, kehu kehu,
@@ -92,6 +96,7 @@ public class kehuAction {
         return json;
     }
 
+    //客户导出
     @RequestMapping(value = "/kehuExport")
     public void gongyingshangExport(ModelMap map, HttpServletRequest request,
             HttpServletResponse response) {

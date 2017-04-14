@@ -23,7 +23,7 @@ import net.sf.json.JSONObject;
 public class warehouseAction {
     @Autowired
     private warehouseServiceImpl warehouseServiceImpl;
-
+    //datagrid显示仓库
     @RequestMapping(value = "/warehouse")
     @ResponseBody
     public JSONObject warehouse(ModelMap map, warehouse warehouse,
@@ -38,6 +38,7 @@ public class warehouseAction {
         return json;
     }
 
+    //combobox仓库
     @RequestMapping(value = "/cangkuselect")
     @ResponseBody
     public JSONArray cangkuselect(ModelMap map, HttpServletRequest request,
@@ -50,6 +51,7 @@ public class warehouseAction {
         return jsonArray;
     }
 
+    //添加仓库
     @RequestMapping(value = "/addwarehouse")
     public String addwarehouse(warehouse warehouse,
             HttpServletResponse response, HttpServletRequest request) {
@@ -62,6 +64,7 @@ public class warehouseAction {
         }
     }
 
+    //编辑仓库
     @RequestMapping(value = "/editwarehouse")
     public String editwarehouse(warehouse warehouse,
             HttpServletResponse response, HttpServletRequest request) {

@@ -26,7 +26,7 @@
 	$(document).ready(
 			function() {
 				var quanxian_array = new Array();
-
+                //总导航点击事件
 				$("input[name='rolezong']").click(
 						function() {
 
@@ -36,10 +36,11 @@
 								$(this).attr('checked', false);
 							}
 							if ($(this).attr('checked')) {
-								//alert("1");
+								//子节点全部选中
 								$(this).parent().find('input:checkbox').prop(
 										'checked', true);
 							} else {
+								//子节点全部不选中
 								$(this).parent().find('input:checkbox').prop(
 										'checked', false);
 							}
@@ -51,12 +52,13 @@
 							$(this).parent().parent().parent().find(
 									"input[name='rolezong']").parent().find(
 									"input[name='rolezi']").each(function() {
-								// alert($(this).val());
+								// 用i记录子导航选中的数量
 								if ($(this).prop('checked')) {
 									i++;
 								}
 
 							})
+							//不为0则勾住父导航，为0则不勾父导航
 							if (i != 0) {
 								$(this).parent().parent().parent().find(
 										"input[name='rolezong']").prop(
@@ -118,6 +120,7 @@
 		var row = $("#role").datagrid('getSelected');
 		if (row) {
 			a = row.role;
+			//获取选中赋予角色,通过角色获取权限，在导航栏里对应的打上勾
 			$
 					.ajax({
 						type : 'post',
@@ -156,6 +159,7 @@
 	}
 
 	function save() {
+		//定义数组用来存放选中的权限
 		var array = [];
 		$("[name='rolezi']:checked").each(
 				function() {

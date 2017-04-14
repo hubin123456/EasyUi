@@ -37,6 +37,7 @@ public class kucunAction {
     @Autowired
     private com.jandar.serviceImpl.diaoboServiceImpl diaoboServiceImpl;
 
+    //datagrid显示拆除最小库存和最大库存的状态的数据
     @RequestMapping(value = "kucunyujing1")
     @ResponseBody
     public JSONObject kucunyujing1(ModelMap map, kucun kucun,
@@ -115,6 +116,7 @@ public class kucunAction {
         return jsonObject1;
     }
 
+    //dtatagrid显示库存
     @RequestMapping(value = "kucun1")
     @ResponseBody
     public JSONObject kucun1(ModelMap map, kucun kucun,
@@ -127,6 +129,7 @@ public class kucunAction {
         return jsonObject;
     }
 
+    //库存导出
     @RequestMapping(value = "/kucunExport")
     public void kucunExport(ModelMap map, HttpServletRequest request,
             HttpServletResponse response) {
@@ -160,6 +163,7 @@ public class kucunAction {
 
     }
 
+    //库存预警导出
     @RequestMapping(value = "/kucunyujingExport")
     public void kucunyujinfExport(ModelMap map, HttpServletRequest request,
             HttpServletResponse response) {
@@ -214,6 +218,7 @@ public class kucunAction {
 
     }
 
+    //combobox库存
     @RequestMapping(value = "/kucunselect")
     @ResponseBody
     public JSONArray kucunselect(ModelMap map, kucun kucun,
@@ -247,6 +252,7 @@ public class kucunAction {
         return jsonArray;
     }
 
+    //编辑库存预警
     @RequestMapping(value = "/editkucunyujing")
     @ResponseBody
     public String editkucunyujing(ModelMap map, kucun kucun,
@@ -281,21 +287,27 @@ public class kucunAction {
 
     }
 
+    //库存调拨
     @RequestMapping(value = "/kucundiaobo")
     @ResponseBody
     public String kucundiaobo(ModelMap map, HttpServletRequest request,
             HttpServletResponse response) {
+        //调出的仓库
         String warehouseNamediaochu = request
                 .getParameter("warehouseNamediaochu");
+        //调出的库存
         String goodsNamediaochu = request.getParameter("goodsNamediaochu");
+        //调入的仓库
         String warehouseNamediaoru = request
                 .getParameter("warehouseNamediaoru");
+        //调入的数量
         String diaoruNumber = request.getParameter("diaoruNumber");
-        System.out.println(goodsNamediaochu + "---");
         JSONObject jsonObject = new JSONObject();
         kucun kucun = new kucun();
+        //查询调出库存集合 数量
         kucun.setKucunId(Integer.valueOf(goodsNamediaochu));
         List<kucun> list = kucunServiceImpl.query1(kucun);
+        //判断如果数量小于调入数量则库存不足
         if (Integer.valueOf(kucunServiceImpl.query1(kucun).get(0)
                 .getKucunNumber()) > Integer.valueOf(diaoruNumber)) {
             kucun.setKucunNumber(String.valueOf(Integer
@@ -303,6 +315,7 @@ public class kucunAction {
                             .getKucunNumber())
                     - Integer.valueOf(diaoruNumber)));
             kucunServiceImpl.update(kucun);
+            //查询该库存在调入仓库的集合判断是否存在 不存在插入  存在更新
             kucun kucun1 = new kucun();
             kucun1.setGoodsName(list.get(0).getGoodsName());
             kucun1.setGoodsImage(list.get(0).getGoodsImage());
@@ -315,6 +328,7 @@ public class kucunAction {
             List<kucun> list1 = kucunServiceImpl.query1(kucun1);
 
             try {
+                //不存在插入
                 if (list1.size() == 0) {
 
                     String time = TimeUtil.timeToString(TimeUtil.currentTime());
@@ -331,7 +345,9 @@ public class kucunAction {
                     diaobo.setDiaoboNumber(diaoruNumber);
                     diaobo.setCreateTime(time);
                     diaoboServiceImpl.insert(diaobo);
-                } else {
+                }
+                //存在更新
+                else {
                     kucun kucun2 = new kucun();
                     kucun2.setKucunId(list1.get(0).getKucunId());
                     kucun2.setKucunNumber(String.valueOf(

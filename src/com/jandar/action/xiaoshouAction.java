@@ -38,6 +38,7 @@ public class xiaoshouAction {
     @Autowired
     private kehuServiceImpl kehuserviceImpl;
 
+    //出库管理datagrid
     @RequestMapping(value = "/dengdaichuhuo")
     @ResponseBody
     public JSONObject dengdaichuhuo(ModelMap model, xiaoshou xiaoshou,
@@ -63,10 +64,8 @@ public class xiaoshouAction {
             jsonObject.put("goodsName",
                     kucunserviceImpl.query1(kucun).get(0).getGoodsName());
             jsonObject.put("goodsNumber", caozuo2.getGoodsNumber());
-            // jsonObject.put("goodsPrice", goods2.getGoodsPrice());
             jsonObject.put("sumPrice", caozuo2.getSumPrice());
             jsonObject.put("username", caozuo2.getUsername());
-            // jsonObject.put("warehouseName", caozuo2.getWarehouseName());
             jsonObject.put("status", caozuo2.getStatus());
             jsonArray.add(jsonObject);
         }
@@ -212,6 +211,9 @@ public class xiaoshouAction {
         xiaoshou.setCurrentnum(0);
         if (xiaoshou.getStatus().equals("全部")) {
             xiaoshou.setStatus("");
+        }
+        if (xiaoshou.getUsername().equals("admin")) {
+            xiaoshou.setUsername("");
         }
         xiaoshou.setRows(xiaoshouServiceImpl.querycount(xiaoshou));
         List<xiaoshou> list = xiaoshouServiceImpl.query(xiaoshou);

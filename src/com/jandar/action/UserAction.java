@@ -50,6 +50,7 @@ public class UserAction {
     @Autowired
     private goodsServiceImpl goodsServiceImpl;
 
+    //修改密码
     @RequestMapping(value = "/xiugaimima")
     @ResponseBody
     public String xiugaimima(ModelMap model, HttpServletRequest request,
@@ -77,7 +78,7 @@ public class UserAction {
 
     }
 
-    // 权限管理
+    // 获取所有的权限
     @RequestMapping(value = "/quanxian")
     public String quanxian(ModelMap model, User user,
             HttpServletRequest request, HttpServletResponse response) {
@@ -107,7 +108,7 @@ public class UserAction {
             HttpServletRequest request, HttpServletResponse response) {
         user.setCurrentnum(
                 PageUtil.getCurrentnum(user.getPage(), user.getRows()));
-
+        //获取全部 移除管理员
         JSONObject json = new JSONObject();
         List<User> list = userServiceImpl.query1(user);
         for (int i = 0; i < list.size(); i++) {
@@ -116,6 +117,7 @@ public class UserAction {
             }
         }
         JSONArray jsonArray = new JSONArray();
+       // 判断当前结束和集合的大小
         if (user.getRows() + user.getCurrentnum() < list.size()) {
             for (int i = user.getCurrentnum(); i < user.getRows()
                     + user.getCurrentnum(); i++) {
@@ -133,7 +135,7 @@ public class UserAction {
 
     }
 
-    // 人员显示
+    // combobox 启用状态人员显示
     @RequestMapping(value = "/renyuanselect1")
     @ResponseBody
     public JSONArray renyuanselect1(ModelMap model, HttpServletRequest request,
@@ -159,7 +161,7 @@ public class UserAction {
         return jsonObject;
     }
 
-    // 初始化密码
+    // 启动账户
     @RequestMapping(value = "/startUser")
     @ResponseBody
     public JSONObject startUser(ModelMap model, User user,
@@ -170,7 +172,7 @@ public class UserAction {
         return jsonObject;
     }
 
-    // 初始化密码
+    // 停用账户
     @RequestMapping(value = "/stopUser")
     @ResponseBody
     public JSONObject stopUser(ModelMap model, User user,
@@ -181,6 +183,7 @@ public class UserAction {
         return jsonObject;
     }
 
+    //账户状态combobox
     @RequestMapping(value = "/statusselect")
     @ResponseBody
     public JSONArray statusselect(ModelMap model, User user,

@@ -38,6 +38,7 @@ public class gongyingshangAction {
     @Autowired
     private goodsServiceImpl goodsserviceImpl;
 
+    //供应商查询
     @RequestMapping(value = "/gongyingshangselect")
     @ResponseBody
     public JSONArray gongyingshangselect(ModelMap map,

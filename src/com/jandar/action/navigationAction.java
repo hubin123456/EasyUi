@@ -46,19 +46,20 @@ public class navigationAction {
         return "login";
     }
 
+    //登录
     @RequestMapping(value = "/login")
     public String login(ModelMap model, User user, HttpServletRequest request,
             HttpServletResponse response) {
         System.out.println("=======================");
 
         user.setCurrentnum(0);
-
+        //把密码通过md5转码
         user.setPassword(MD5.getMD5String1(user.getPassword()));
         JSONObject jsonObject = new JSONObject();
         user.setRows(userServiceImpl.querycount(user));
-        System.out.println(
-                user.getPassword() + "--" + userServiceImpl.query(user).size());
+        //判断该账号是否只有一个且已启动
         if (userServiceImpl.query(user).size() == 1) {
+            //启动
             if (userServiceImpl.query(user).get(0).getStatus().equals("启用")) {
                 model.put("user", userServiceImpl.query(user).get(0));
                 HttpSession session = request.getSession();
@@ -67,7 +68,9 @@ public class navigationAction {
                 session.setAttribute("role",
                         userServiceImpl.query(user).get(0).getRole());
                 return "/index/index";
-            } else {
+            }
+            //禁用
+            else {
                 jsonObject.put("result", "该账户已被禁用");
                 model.put("result", jsonObject);
                 return "/login";
@@ -79,29 +82,34 @@ public class navigationAction {
         }
     }
 
+    
+    //easyuitree 异步显示导航栏
     @RequestMapping(value = "/treeinit")
     @ResponseBody
     public JSONArray treeinit(ModelMap model, User user,
             HttpServletRequest request, HttpServletResponse response)
             throws UnsupportedEncodingException {
 
-        Navigation navigation = new Navigation();
+      
         Navigation1 navigation1 = new Navigation1();
-
+        
         user.setCurrentnum(0);
         user.setRows(userServiceImpl.querycount(user));
         user.setRole(
                 new String(user.getRole().getBytes("ISO-8859-1"), "utf-8"));
+        //获取父导航集合
         List<Navigation> list = navigationServiceImpl.query(new Navigation());
         JSONArray jsonArray1 = new JSONArray();
         navigation1.setRole(user.getRole());
         for (Navigation list1 : list) {
+            //循环父导航查找对应子导航集合
             JSONArray jsonArray = new JSONArray();
             navigation1.setNavigationId(list1.getNavigationId());
             List<Navigation1> list2 = navigation1ServiceImpl.query(navigation1);
             JSONObject jsonObject = new JSONObject();
-
+            //当子导航集合不为0
             if (list2.size() != 0) {
+                //添加父导航，子导航到jsonarray text导航名 iconcls 图片 state 状态 children子节点
                 jsonObject.put("text", list1.getNavigation());
                 for (Navigation1 list3 : list2) {
                     JSONObject jsonObject1 = new JSONObject();
@@ -115,10 +123,7 @@ public class navigationAction {
                 jsonObject.put("iconCls", list1.getImage());
                 jsonArray1.add(jsonObject);
             }
-
         }
-
-        System.out.println(jsonArray1);
         return jsonArray1;
     }
 
@@ -161,7 +166,7 @@ public class navigationAction {
         return "/neirong/richangguanli/renyuan";
     }
 
-    // 采购订单
+    // 采购
     @RequestMapping(value = "/caigoudingdan")
     public String cangoudingdan(ModelMap model, User user,
             HttpServletRequest request, HttpServletResponse response) {
@@ -169,7 +174,7 @@ public class navigationAction {
         return "/neirong/gongyingguanli/caigoudingdan";
     }
 
-    // 采购入库单
+    // 采购订单
     @RequestMapping(value = "/caigoulukudan")
     public String caigoulukudan(ModelMap model, User user,
             HttpServletRequest request, HttpServletResponse response) {
@@ -177,15 +182,8 @@ public class navigationAction {
         return "/neirong/gongyingguanli/caigoulukudan";
     }
 
-    // 采购退货单
-    @RequestMapping(value = "/caigoutuihuodan")
-    public String caigoutuihuodan(ModelMap model, User user,
-            HttpServletRequest request, HttpServletResponse response) {
-
-        return "/neirong/gongyingguanli/caigoutuihuodan";
-    }
-
-    // 权限管理
+    
+    //供应商交易明细
     @RequestMapping(value = "/gongyingshangjiaoyimingxi")
     public String gongyingshangjiaoyimingxi(ModelMap model, User user,
             HttpServletRequest request, HttpServletResponse response) {
@@ -193,13 +191,14 @@ public class navigationAction {
         return "/neirong/gongyingguanli/gongyingshangjiaoyi";
     }
 
+    //供应商管理
     @RequestMapping(value = "/gongyingshangguanli")
     public String gongyingshangguanli(ModelMap model, User user,
             HttpServletRequest request, HttpServletResponse response) {
 
         return "/neirong/gongyingguanli/gongyingshangguanli";
     }
-
+    //统计报表
     @RequestMapping(value = "/baobiao")
     public String baobiao(ModelMap model, User user, HttpServletRequest request,
             HttpServletResponse response) {
@@ -207,13 +206,9 @@ public class navigationAction {
         return "/neirong/baobiao";
     }
 
-    @RequestMapping(value = "/canshu")
-    public String canshu(ModelMap model, User user, HttpServletRequest request,
-            HttpServletResponse response) {
+   
 
-        return "/neirong/canshu";
-    }
-
+    //客户管理
     @RequestMapping(value = "/kehuguanli")
     public String kehuguanli(ModelMap model, User user,
             HttpServletRequest request, HttpServletResponse response) {
@@ -221,6 +216,7 @@ public class navigationAction {
         return "/neirong/richangguanli/kehu";
     }
 
+    //库存预警
     @RequestMapping(value = "kucunyujing")
     public String kucunyujing(ModelMap model, User user,
             HttpServletRequest request, HttpServletResponse response) {
@@ -228,6 +224,7 @@ public class navigationAction {
         return "/neirong/kucunguanli/kucunyujing";
     }
 
+    //财务统计报表
     @RequestMapping(value = "caiwutongjibaobiao")
     public String caiwutongjibaobiao(ModelMap model, User user,
             HttpServletRequest request, HttpServletResponse response) {
@@ -235,6 +232,7 @@ public class navigationAction {
         return "/neirong/caiwutongjibaobiao";
     }
 
+    //客户订单
     @RequestMapping(value = "kehudingdan")
     public String kehudingdan(ModelMap model, User user,
             HttpServletRequest request, HttpServletResponse response) {
@@ -242,6 +240,7 @@ public class navigationAction {
         return "/neirong/xiaoshouguanli/kehudingdan";
     }
 
+    //客户交易明细
     @RequestMapping(value = "kehujiaoyimingxi")
     public String kehujiaoyimingxi(ModelMap model, User user,
             HttpServletRequest request, HttpServletResponse response) {
@@ -249,6 +248,7 @@ public class navigationAction {
         return "/neirong/xiaoshouguanli/kehujiaoyimingxi";
     }
 
+    //提交订单
     @RequestMapping(value = "tijiaodingdan")
     public String tijiaodingdan(ModelMap model, User user,
             HttpServletRequest request, HttpServletResponse response) {
@@ -256,6 +256,7 @@ public class navigationAction {
         return "/neirong/xiaoshouguanli/tijiaodingdan";
     }
 
+    //库存盘点
     @RequestMapping(value = "kucunpandian1")
     public String kucunpandian(ModelMap model, User user,
             HttpServletRequest request, HttpServletResponse response) {
@@ -263,6 +264,7 @@ public class navigationAction {
         return "/neirong/kucunguanli/kucunpandian";
     }
 
+    //商品管理
     @RequestMapping(value = "shangpingguanli")
     public String shangpingguanli(ModelMap model, User user,
             HttpServletRequest request, HttpServletResponse response) {
@@ -270,10 +272,5 @@ public class navigationAction {
         return "/neirong/richangguanli/shangpingguanli";
     }
 
-    @RequestMapping(value = "leiguanli")
-    public String leiguanli(ModelMap model, User user,
-            HttpServletRequest request, HttpServletResponse response) {
-        System.out.println("====");
-        return "/neirong/richangguanli/leiguanli";
-    }
+    
 }

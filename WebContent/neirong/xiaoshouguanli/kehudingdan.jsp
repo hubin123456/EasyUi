@@ -102,7 +102,8 @@
 	}
 	function dingdanexport() {
 		var t_form = $("<form action='kehudingdanExport.do' method='post' name='form1'><input type='hidden' name='status' value="
-				+ $("#rukudanstatus").val() + "></form>");
+				+ $("#rukudanstatus").val() + "><input type='hidden' name='username' value="
+				+ $("#username").val() + "></form>");
 		$("body").append(t_form);
 		$("form[name='form1']").submit();
 	}
@@ -118,6 +119,8 @@
 		</div>
 	</div>
 	<div class="neirong2">-->
+	<input type="hidden"
+		value=<%=request.getSession().getAttribute("user")%> id="username">
 	<div class="easyui-tabs" style="width: 100%; height: 600px;">
 		<div title="客户订单管理" style="padding-top: 20px; display: none;">
 			&nbsp;状态:&nbsp;<select id="rukudanstatus"

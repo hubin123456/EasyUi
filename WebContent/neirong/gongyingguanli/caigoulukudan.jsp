@@ -99,7 +99,8 @@
 	}
 	function dingdanexport() {
 		var t_form = $("<form action='caigoudingdanExport.do' method='post' name='form1'><input type='hidden' name='status' value="
-				+ $("#rukudanstatus").val() + "></form>");
+				+ $("#rukudanstatus").val() + "><input type='hidden' name='username' value="
+				+ $("#username").val() + "></form>");
 		$("body").append(t_form);
 		$("form[name='form1']").submit();
 	}

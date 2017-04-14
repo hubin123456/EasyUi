@@ -29,6 +29,7 @@ public class kucunpandianAction {
     @Autowired
     private kucunServiceImpl kucunserviceImpl;
 
+    //datagrid显示库存盘点表单  只有库存数量和实际不符的表单
     @RequestMapping(value = "kucunpandian2")
     @ResponseBody
     public JSONObject kucun1(ModelMap map, kucunpandian kucun,
@@ -87,6 +88,7 @@ public class kucunpandianAction {
 
     }
 
+    //添加库存盘点表单
     @RequestMapping(value = "addkucunpandian")
     @ResponseBody
     public JSONObject addkucunpandian(ModelMap map, kucunpandian kucun,
@@ -96,6 +98,7 @@ public class kucunpandianAction {
         try {
             kucunpandian kucun1 = new kucunpandian();
             kucun1.setKucunId(kucun.getKucunId());
+            //覆盖已存在的库存盘点表单
             if (kucunpandianServiceImpl.query1(kucun1).size() != 0) {
                 kucunpandianServiceImpl.delete(kucun1);
             }
@@ -108,6 +111,7 @@ public class kucunpandianAction {
         return jsonObject;
     }
 
+    //删除库存盘点表单
     @RequestMapping(value = "deletepandian")
     @ResponseBody
     public String deletepandian(ModelMap map, kucunpandian kucun,

@@ -166,7 +166,7 @@
 	<br>
 	<div id="container" style="width: 100%; height: 400px; margin: 0 auto"></div>
 
-	<div id="caozuoxiangxi" class="easyui-window" title="详细库存"
+	<div id="caozuoxiangxi" class="easyui-window" title="详细信息"
 		style="width: 1000px; height: 200px;"
 		data-options="iconCls:'icon-save',modal:true,closed:true">
 
