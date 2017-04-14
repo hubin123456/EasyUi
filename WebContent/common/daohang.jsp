@@ -14,7 +14,7 @@
 						$("#tree")
 								.tree(
 										{
-
+											
 											url : 'treeinit.do?role='
 													+ $("#userrole").html(),
 											onLoadSuccess : function() {

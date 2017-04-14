@@ -107,9 +107,11 @@ public class navigationAction {
                     JSONObject jsonObject1 = new JSONObject();
                     jsonObject1.put("text", list3.getNavigation1());
                     jsonObject1.put("iconCls", list3.getImage());
+                  
                     jsonArray.add(jsonObject1);
                 }
                 jsonObject.put("children", jsonArray);
+                jsonObject.put("state", "closed");
                 jsonObject.put("iconCls", list1.getImage());
                 jsonArray1.add(jsonObject);
             }
