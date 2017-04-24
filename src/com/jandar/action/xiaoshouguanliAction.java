@@ -30,7 +30,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @Controller
-public class xiaoshouAction {
+public class xiaoshouguanliAction {
     @Autowired
     private xiaoshouServiceImpl xiaoshouServiceImpl;
     @Autowired

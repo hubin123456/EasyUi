@@ -10,24 +10,29 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.ibatis.scripting.xmltags.VarDeclSqlNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jandar.pojo.caozuo;
+import com.jandar.pojo.kucun;
 import com.jandar.pojo.xiaoshou;
 import com.jandar.serviceImpl.caozuoServiceImpl;
+import com.jandar.serviceImpl.kucunServiceImpl;
+import com.jandar.util.PageUtil;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import sun.org.mozilla.javascript.internal.IdFunctionCall;
 
 @Controller
-public class caiwuAction {
+public class baobiaoAction {
     @Autowired
     private caozuoServiceImpl caozuoServiceImpl;
     @Autowired
     private com.jandar.serviceImpl.xiaoshouServiceImpl xiaoshouServiceImpl;
-
+    @Autowired
+    private kucunServiceImpl kucunserviceImpl;
     // 年份下拉框
     @RequestMapping("/yearselect")
     @ResponseBody
@@ -228,4 +233,177 @@ public class caiwuAction {
         }
         return list;
     }
+    
+    
+  //财务折线图点击具体的点查看具体的datagrid数据
+    @RequestMapping(value = "/caozuozhexiantu")
+    @ResponseBody
+    public JSONObject caozuozhexiantu(ModelMap model, xiaoshou caozuo,
+            HttpServletRequest request, HttpServletResponse response) {
+
+        caozuo.setCurrentnum(
+                PageUtil.getCurrentnum(caozuo.getPage(), caozuo.getRows()));
+        System.out.println(caozuo.getCurrentnum() + "--------------------");
+        String x = request.getParameter("x");
+        String year = request.getParameter("year");
+        String month = request.getParameter("month");
+        String renyuan = request.getParameter("renyuan");
+        String tiaojian = request.getParameter("tiaojian");
+        JSONObject json = new JSONObject();
+        String time = "";
+        //如果month为空   x+1就为当前月份  判断小于9 前面加-
+        if (month == "") {
+            if (Integer.valueOf(x) <= 8) {
+                time = year + "-0" + String.valueOf(Integer.valueOf(x) + 1);
+            } else {
+                time = year + "-" + String.valueOf(Integer.valueOf(x) + 1);
+            }
+        } 
+        //month不为空 x+1就是当前号数，判断month小于9  号小于9
+        else {
+            if (Integer.valueOf(month) <= 8) {
+                if (Integer.valueOf(x) <= 8) {
+                    time = year + "-0" + month + "-0"
+                            + String.valueOf(Integer.valueOf(x) + 1);
+                } else {
+                    time = year + "-0" + month + "-"
+                            + String.valueOf(Integer.valueOf(x) + 1);
+                }
+            } else {
+                if (Integer.valueOf(x) <= 8) {
+                    time = year + "-" + month + "-0"
+                            + String.valueOf(Integer.valueOf(x) + 1);
+                } else {
+                    time = year + "-" + month + "-"
+                            + String.valueOf(Integer.valueOf(x) + 1);
+                }
+            }
+        }
+        //上段代码算出时间,下段判断是收入还是支出
+        if (tiaojian.equals("收入")) {
+            xiaoshou xiaoshou = new xiaoshou();
+            System.out.println(time);
+            xiaoshou.setChukuTime(time);
+            xiaoshou.setUsername(renyuan);
+            List<xiaoshou> list = xiaoshouServiceImpl.queryBytime(xiaoshou);
+
+            shourucaiwuxiangxi(list, caozuo, json);
+        } else if (tiaojian.equals("支出")) {
+            System.out.println(time);
+            caozuo caozuo1 = new caozuo();
+            caozuo1.setUsername(renyuan);
+            caozuo1.setLukuTime(time);
+            List<caozuo> list = caozuoServiceImpl.queryBytime(caozuo1);
+            zhichucaiwuxiangxi(list, caozuo, json);
+
+        }
+        return json;
+
+    }
+
+    public JSONObject zhichucaiwuxiangxi(List<caozuo> list, xiaoshou xiaoshou,
+            JSONObject json) {
+        JSONArray jsonArray = new JSONArray();
+        for (caozuo caozuo2 : list) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("xiaoshouId", caozuo2.getCaozuoId());
+            jsonObject.put("kehuName", caozuo2.getSupplierName());
+            jsonObject.put("goodsImage", caozuo2.getGoodsImage());
+            jsonObject.put("goodsName", caozuo2.getGoodsName());
+            jsonObject.put("goodsNumber", caozuo2.getGoodsNumber());
+            // jsonObject.put("goodsPrice", goods2.getGoodsPrice());
+            jsonObject.put("sumPrice", caozuo2.getSumPrice());
+            jsonObject.put("username", caozuo2.getUsername());
+            // jsonObject.put("warehouseName", caozuo2.getWarehouseName());
+            jsonObject.put("createTime", caozuo2.getCreateTime());
+            jsonArray.add(jsonObject);
+        }
+
+        JSONArray jsonArray1 = new JSONArray();
+        if ((xiaoshou.getCurrentnum() + xiaoshou.getRows()) < jsonArray
+                .size()) {
+            for (int i = xiaoshou.getCurrentnum(); i < xiaoshou.getCurrentnum()
+                    + xiaoshou.getRows(); i++) {
+                jsonArray1.add(jsonArray.getJSONObject(i));
+            }
+        } else {
+            for (int i = xiaoshou.getCurrentnum(); i < jsonArray.size(); i++) {
+                jsonArray1.add(jsonArray.getJSONObject(i));
+            }
+        }
+        json.put("rows", jsonArray1);
+        json.put("total", jsonArray.size());
+        return json;
+    }
+
+    public JSONObject shourucaiwuxiangxi(List<xiaoshou> list, xiaoshou xiaoshou,
+            JSONObject json) {
+        JSONArray jsonArray = new JSONArray();
+        for (xiaoshou caozuo2 : list) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("xiaoshouId", caozuo2.getXiaoshouId());
+            jsonObject.put("kehuName", caozuo2.getKehuName());
+            kucun kucun = new kucun();
+            kucun.setKucunId(caozuo2.getKucunId());
+            jsonObject.put("goodsImage",
+                    kucunserviceImpl.query1(kucun).get(0).getGoodsImage());
+            jsonObject.put("goodsName",
+                    kucunserviceImpl.query1(kucun).get(0).getGoodsName());
+            jsonObject.put("goodsNumber", caozuo2.getGoodsNumber());
+            // jsonObject.put("goodsPrice", goods2.getGoodsPrice());
+            jsonObject.put("sumPrice", caozuo2.getSumPrice());
+            jsonObject.put("username", caozuo2.getUsername());
+            // jsonObject.put("warehouseName", caozuo2.getWarehouseName());
+            jsonObject.put("createTime", caozuo2.getCreateTime());
+            jsonArray.add(jsonObject);
+        }
+
+        JSONArray jsonArray1 = new JSONArray();
+        if ((xiaoshou.getCurrentnum() + xiaoshou.getRows()) < jsonArray
+                .size()) {
+            for (int i = xiaoshou.getCurrentnum(); i < xiaoshou.getCurrentnum()
+                    + xiaoshou.getRows(); i++) {
+                jsonArray1.add(jsonArray.getJSONObject(i));
+            }
+        } else {
+            for (int i = xiaoshou.getCurrentnum(); i < jsonArray.size(); i++) {
+                jsonArray1.add(jsonArray.getJSONObject(i));
+            }
+        }
+        json.put("rows", jsonArray1);
+        json.put("total", jsonArray.size());
+        return json;
+    }
+
+    
+  //货物统计报表
+    @RequestMapping(value = "/goods1")
+    @ResponseBody
+    public JSONArray goods1(HttpServletResponse response,
+            HttpServletRequest request) {
+        kucun kucun = new kucun();
+        kucun.setWarehouseName(request.getParameter("warehouseName"));
+        kucun.setCurrentnum(0);
+        kucun.setRows(kucunserviceImpl.querycount(kucun));
+        JSONArray jsonArray = new JSONArray();
+        double sum = 0;
+        int sum1 = 0;
+        List<kucun> list = kucunserviceImpl.query(kucun);
+        for (kucun kucun1 : list) {
+            sum = sum + Integer.valueOf(kucun1.getKucunNumber());
+        }
+        for (kucun kucun1 : list) {
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("name", kucun1.getKucunId());
+
+            double y = Double.valueOf(kucun1.getKucunNumber()) / sum * 100;
+            jsonObject.put("y", y);
+            jsonArray.add(jsonObject);
+            sum1 = 0;
+        }
+
+        return jsonArray;
+    }
+
 }

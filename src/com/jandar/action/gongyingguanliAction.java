@@ -30,7 +30,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @Controller
-public class gongyingshangAction {
+public class gongyingguanliAction {
     @Autowired
     private gongyingshangServiceImpl gongyingshangServiceImpl;
     @Autowired
@@ -38,78 +38,94 @@ public class gongyingshangAction {
     @Autowired
     private goodsServiceImpl goodsserviceImpl;
 
-    //供应商查询
-    @RequestMapping(value = "/gongyingshangselect")
+    //采购订单的查询
+    @RequestMapping(value = "/caigouruku")
     @ResponseBody
-    public JSONArray gongyingshangselect(ModelMap map,
+    public JSONObject caigouruku(ModelMap model, caozuo caozuo,
             HttpServletRequest request, HttpServletResponse response) {
-        JSONArray jsonArray = new JSONArray();
-        gongyingshang gongyingshang = new gongyingshang();
-        gongyingshang
-                .setRows(gongyingshangServiceImpl.querycount(gongyingshang));
-        gongyingshang.setCurrentnum(0);
-        jsonArray = jsonArray
-                .fromObject(gongyingshangServiceImpl.query(gongyingshang));
-        System.out.println(jsonArray);
-        return jsonArray;
-    }
 
-    //创建供应商
-    @RequestMapping(value = "/createSupplier")
-    @ResponseBody
-    public String createSupplier(ModelMap map, gongyingshang gongyingshang,
-            HttpServletRequest request, HttpServletResponse response) {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            gongyingshang.setCreateTime(
-                    TimeUtil.timeToString(TimeUtil.currentTime()));
-            gongyingshangServiceImpl.insert(gongyingshang);
-            jsonObject.put("result", 0);
-            return jsonObject.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-            jsonObject.put("result", 1);
-            return jsonObject.toString();
+        if (caozuo.getStatus() != null && caozuo.getStatus().equals("全部")) {
+            caozuo.setStatus("");
         }
-    }
-
-    //编辑供应商
-    @RequestMapping(value = "/editSupplier")
-    @ResponseBody
-    public String editSupplier(ModelMap map, gongyingshang gongyingshang,
-            HttpServletRequest request, HttpServletResponse response) {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            gongyingshang.setCreateTime(
-                    TimeUtil.timeToString(TimeUtil.currentTime()));
-            gongyingshangServiceImpl.update(gongyingshang);
-            jsonObject.put("result", 0);
-            return jsonObject.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-            jsonObject.put("result", 1);
-            return jsonObject.toString();
+        if (caozuo.getUsername().equals("admin")) {
+            caozuo.setUsername("");
         }
-    }
-
-    //datagrid供应商
-    @RequestMapping(value = "/gongyingshang")
-    @ResponseBody
-    public JSONObject gongyingshang(ModelMap map, gongyingshang gongyingshang,
-            HttpServletRequest request, HttpServletResponse response) {
+        caozuo.setCurrentnum(
+                PageUtil.getCurrentnum(caozuo.getPage(), caozuo.getRows()));
+        caozuo.setCount(caozuoserviceImpl.querycount(caozuo));
         JSONObject json = new JSONObject();
-        gongyingshang.setCount(
-                gongyingshangServiceImpl.querycount(new gongyingshang()));
-        gongyingshang.setCurrentnum(PageUtil.getCurrentnum(
-                gongyingshang.getPage(), gongyingshang.getRows()));
-        List<gongyingshang> list = gongyingshangServiceImpl
-                .query(gongyingshang);
+        List<caozuo> list = caozuoserviceImpl.query(caozuo);
         json.put("rows", list);
-        json.put("total", gongyingshang.getCount());
+        json.put("total", caozuo.getCount());
         return json;
+
     }
 
-    //供应商交易
+    //采购订单的导出
+    @RequestMapping(value = "/caigoudingdanExport")
+    public void caigoudingdanExport(ModelMap model, caozuo caozuo,
+            HttpServletRequest request, HttpServletResponse response) {
+
+        caozuo.setCurrentnum(0);
+        if (caozuo.getStatus().equals("全部")) {
+            caozuo.setStatus("");
+        }
+        if (caozuo.getUsername().equals("admin")) {
+            caozuo.setUsername("");
+        }
+        caozuo.setRows(caozuoserviceImpl.querycount(caozuo));
+        List<caozuo> list = caozuoserviceImpl.query(caozuo);
+        String[] header = new String[] { "采购单编号", "货物名称", "货物类别", "货物单位",
+                "货物单价", "供应商", "货物数量", "货物总价", "仓库名", "入库人员", "状态", "创建时间" };
+        List<Map<String, Object>> list1 = new ArrayList<Map<String, Object>>();
+        for (caozuo caozuo1 : list) {
+            Map<String, Object> map1 = new HashMap<String, Object>();
+            map1.put("采购单编号", caozuo1.getCaozuoId());
+
+            map1.put("货物名称", caozuo1.getGoodsName());
+
+            map1.put("货物类别", caozuo1.getGoodsLei());
+            map1.put("货物单位", caozuo1.getGoodsUnit());
+            map1.put("货物单价", caozuo1.getGoodsPrice());
+            map1.put("供应商", caozuo1.getSupplierName());
+            map1.put("货物数量", caozuo1.getGoodsNumber());
+            map1.put("货物总价", caozuo1.getSumPrice());
+            map1.put("仓库名", caozuo1.getWarehouseName());
+            map1.put("入库人员", caozuo1.getUsername());
+            map1.put("状态", caozuo1.getStatus());
+            map1.put("创建时间", caozuo1.getCreateTime());
+            list1.add(map1);
+        }
+        try {
+            ExportExcel.Export(list1, response, caozuo.getStatus() + "采购单",
+                    header);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //采购
+    @RequestMapping(value = "/jinghuo3")
+    @ResponseBody
+    public String createcaigoudan(ModelMap map, caozuo caozuo,
+            HttpServletRequest request, HttpServletResponse response) {
+
+        caozuo.setCreateTime(TimeUtil.timeToString(TimeUtil.currentTime()));
+        caozuo.setStatus("等待入库");
+        JSONObject jsonObject = new JSONObject();
+        try {
+
+            caozuoserviceImpl.insert(caozuo);
+            jsonObject.put("result", "1");
+        } catch (IllegalStateException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            jsonObject.put("result", "0");
+        }
+        return jsonObject.toString();
+    }
+
+    //供应商交易明细
     @RequestMapping(value = "/gongyingshangjiaoyi")
     @ResponseBody
     public JSONObject gongyingshangjioayi(ModelMap map,
@@ -144,7 +160,7 @@ public class gongyingshangAction {
         return json;
     }
 
-    //交易导出
+    //供应商交易明细导出
     @RequestMapping(value = "/gongyingshangyiExport")
     public void gongyingshangyiExport(ModelMap map, caozuo caozuo,
             HttpServletRequest request, HttpServletResponse response) {
@@ -181,32 +197,6 @@ public class gongyingshangAction {
 
     }
     
-    //供应商导出
-    @RequestMapping(value = "/ gongyingshangExport")
-    public void gongyingshangExport(ModelMap map, HttpServletRequest request,
-            HttpServletResponse response) {
-        gongyingshang gongyingshang = new gongyingshang();
-        gongyingshang.setCurrentnum(0);
-        gongyingshang.setRows(
-                gongyingshangServiceImpl.querycount(new gongyingshang()));
-        List<gongyingshang> list = gongyingshangServiceImpl
-                .query(gongyingshang);
-        String[] header = new String[] { "供应商名称", "联系方式", "地址", "创建时间" };
-        List<Map<String, Object>> list1 = new ArrayList<Map<String, Object>>();
-        for (gongyingshang gongyingshang1 : list) {
-            Map<String, Object> map1 = new HashMap<String, Object>();
-            map1.put("供应商名称", gongyingshang1.getSupplierName());
-            map1.put("联系方式", gongyingshang1.getSupplierPhone());
-            map1.put("地址", gongyingshang1.getSupplierAddress());
-            map1.put("创建时间", gongyingshang1.getCreateTime());
-            list1.add(map1);
-        }
-        try {
-            ExportExcel.Export(list1, response, "供应商信息表", header);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
+   
 
 }
