@@ -38,85 +38,7 @@ public class xiaoshouguanliAction {
     @Autowired
     private kehuServiceImpl kehuserviceImpl;
 
-    //出库管理datagrid
-    @RequestMapping(value = "/dengdaichuhuo")
-    @ResponseBody
-    public JSONObject dengdaichuhuo(ModelMap model, xiaoshou xiaoshou,
-            HttpServletRequest request, HttpServletResponse response) {
-        System.out.println(xiaoshou.getUsername() + "---");
-        xiaoshou.setStatus("等待出库");
-        xiaoshou.setCurrentnum(
-                PageUtil.getCurrentnum(xiaoshou.getPage(), xiaoshou.getRows()));
-        xiaoshou.setCount(xiaoshouServiceImpl.querycount(xiaoshou));
-        JSONObject json = new JSONObject();
-        List<xiaoshou> list = xiaoshouServiceImpl.query(xiaoshou);
-        JSONArray jsonArray = new JSONArray();
-        for (xiaoshou caozuo2 : list) {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("xiaoshouId", caozuo2.getXiaoshouId());
-            jsonObject.put("kehuName", caozuo2.getKehuName());
-            jsonObject.put("kucunId", caozuo2.getKucunId());
-            jsonObject.put("createTime", caozuo2.getCreateTime());
-            kucun kucun = new kucun();
-            kucun.setKucunId(caozuo2.getKucunId());
-            jsonObject.put("goodsImage",
-                    kucunserviceImpl.query1(kucun).get(0).getGoodsImage());
-            jsonObject.put("goodsName",
-                    kucunserviceImpl.query1(kucun).get(0).getGoodsName());
-            jsonObject.put("goodsNumber", caozuo2.getGoodsNumber());
-            jsonObject.put("sumPrice", caozuo2.getSumPrice());
-            jsonObject.put("username", caozuo2.getUsername());
-            jsonObject.put("status", caozuo2.getStatus());
-            jsonArray.add(jsonObject);
-        }
-
-        JSONArray jsonArray1 = new JSONArray();
-        if ((xiaoshou.getCurrentnum() + xiaoshou.getRows()) < jsonArray
-                .size()) {
-            for (int i = xiaoshou.getCurrentnum(); i < xiaoshou.getCurrentnum()
-                    + xiaoshou.getRows(); i++) {
-                jsonArray1.add(jsonArray.getJSONObject(i));
-            }
-        } else {
-            for (int i = xiaoshou.getCurrentnum(); i < jsonArray.size(); i++) {
-                jsonArray1.add(jsonArray.getJSONObject(i));
-            }
-        }
-        json.put("rows", jsonArray.toList(jsonArray1));
-        json.put("total", jsonArray.size());
-        System.out.println(json);
-        return json;
-    }
-
-    @RequestMapping(value = "/chuhuoselect")
-    @ResponseBody
-    public JSONArray chuhuoselect(ModelMap model, xiaoshou caozuo,
-            HttpServletRequest request, HttpServletResponse response) {
-
-        caozuo.setStatus("等待出库");
-        caozuo.setCurrentnum(0);
-        caozuo.setRows(xiaoshouServiceImpl.querycount(caozuo));
-        List<xiaoshou> list = xiaoshouServiceImpl.query(caozuo);
-
-        return JSONArray.fromObject(list);
-    }
-
-    @RequestMapping(value = "/chuhuochexiao")
-    @ResponseBody
-    public JSONObject chuhuochexiao(ModelMap model, xiaoshou caozuo,
-            HttpServletRequest request, HttpServletResponse response) {
-        JSONObject jsonObject = new JSONObject();
-        caozuo.setStatus("撤销");
-        try {
-            xiaoshouServiceImpl.update(caozuo);
-            jsonObject.put("result", "撤销成功");
-            return jsonObject;
-        } catch (Exception e) {
-            jsonObject.put("result", "撤销失败");
-            return jsonObject;
-        }
-    }
-
+    //客户订单
     @RequestMapping(value = "/chukudingdan")
     @ResponseBody
     public JSONObject chukudingdan(ModelMap model, xiaoshou xiaoshou,
@@ -162,6 +84,7 @@ public class xiaoshouguanliAction {
         return json;
     }
 
+    //客户交易明细导出
     @RequestMapping(value = "/kehujiaoyiExport")
     public void kehujiaoyiExport(ModelMap map, xiaoshou kehu,
             HttpServletRequest request, HttpServletResponse response) {
@@ -206,6 +129,7 @@ public class xiaoshouguanliAction {
 
     }
 
+    //客户订单导出
     @RequestMapping(value = "/kehudingdanExport")
 
     public void kehudingdanExport(ModelMap map, xiaoshou xiaoshou,
@@ -256,6 +180,7 @@ public class xiaoshouguanliAction {
         }
     }
 
+    //客户交易明细datagrid
     @RequestMapping(value = "/kehujiaoyi1")
     @ResponseBody
     public JSONObject kehujioayi1(ModelMap map, HttpServletRequest request,
@@ -294,6 +219,7 @@ public class xiaoshouguanliAction {
         return json;
     }
 
+    //提交销售订单
     @RequestMapping(value = "/chuku11")
     @ResponseBody
     public String chuku11(ModelMap model, xiaoshou xiaoshou,
@@ -304,7 +230,7 @@ public class xiaoshouguanliAction {
             xiaoshou.setCreateTime(
                     TimeUtil.timeToString(TimeUtil.currentTime()));
             xiaoshouServiceImpl.insert(xiaoshou);
-            jsonObject.put("result", "提交成功");
+            jsonObject.put("result", "提交成功,等待审核");
             return jsonObject.toString();
         } catch (Exception e) {
             e.printStackTrace();
@@ -313,41 +239,5 @@ public class xiaoshouguanliAction {
         }
     }
 
-    @RequestMapping(value = "/chuku")
-    @ResponseBody
-    public String chuku(ModelMap model, xiaoshou xiaoshou,
-            HttpServletRequest request, HttpServletResponse response) {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            kucun kucun = new kucun();
-            kucun.setKucunId(xiaoshou.getKucunId());
-            kucun.setCurrentnum(0);
-            kucun.setRows(kucunserviceImpl.querycount(new kucun()));
-            String time = TimeUtil.timeToString(TimeUtil.currentTime());
-            int num = 0;
-            List<kucun> list = kucunserviceImpl.query(kucun);
-            if (list.size() != 0) {
-                if (Integer.valueOf(list.get(0).getKucunNumber()) > Integer
-                        .valueOf(xiaoshou.getGoodsNumber())) {
-                    kucun.setKucunNumber(String.valueOf(Integer
-                            .valueOf(list.get(0).getKucunNumber())
-                            - Integer.valueOf(xiaoshou.getGoodsNumber())));
-                    kucunserviceImpl.update(kucun);
-                    xiaoshou.setStatus("出库");
-                    xiaoshou.setChukuTime(time);
-                    xiaoshouServiceImpl.update(xiaoshou);
-                    jsonObject.put("result", "出库成功");
-                } else {
-                    jsonObject.put("result", "出库失败，库存不足");
-                }
-            } else {
-                jsonObject.put("result", "出库失败，库存不足");
-            }
-            return jsonObject.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-            jsonObject.put("result", "出库失败");
-            return jsonObject.toString();
-        }
-    }
+  
 }
