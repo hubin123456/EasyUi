@@ -104,7 +104,7 @@
 																				1,
 																				2,
 																				3 ],
-																		fitColumns : false,
+																		fitColumns : true,
 																		pageSize : 1,
 																		queryParams : {
 																			"x" : event.point.x,

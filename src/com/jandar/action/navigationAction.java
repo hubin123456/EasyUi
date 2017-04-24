@@ -115,12 +115,14 @@ public class navigationAction {
                     JSONObject jsonObject1 = new JSONObject();
                     jsonObject1.put("text", list3.getNavigation1());
                     jsonObject1.put("iconCls", list3.getImage());
-                  
+                    jsonObject1.put("id", list3.getUrl());
+                    //jsonObject1.put("id", list3.getId());
                     jsonArray.add(jsonObject1);
                 }
                 jsonObject.put("children", jsonArray);
-                jsonObject.put("state", "closed");
+                //jsonObject.put("state", "closed");
                 jsonObject.put("iconCls", list1.getImage());
+                
                 jsonArray1.add(jsonObject);
             }
         }
@@ -271,6 +273,35 @@ public class navigationAction {
         System.out.println("====");
         return "/neirong/richangguanli/shangpingguanli";
     }
-
+    //权限管理
+    @RequestMapping(value = "/quanxian")
+    public String quanxian(ModelMap model, User user,
+            HttpServletRequest request, HttpServletResponse response) {
+        Navigation navigation = new Navigation();
+        Navigation1 navigation1 = new Navigation1();
+        JSONArray jsonArray = new JSONArray();
+        List<Navigation> list = navigationServiceImpl.query(navigation);
+        for (Navigation list1 : list) {
+            navigation1.setNavigationId(list1.getNavigationId());
+            navigation1.setRole("管理员");
+            List<Navigation1> list2 = navigation1ServiceImpl.query(navigation1);
+            JSONObject jsonObject = new JSONObject();
+            if (list2.size() != 0) {
+                jsonObject.put("navigation", list1.getNavigation());
+                JSONArray jsonArray1 = new JSONArray();
+                for(Navigation1 navigation3:list2){
+                    JSONObject jsonObject2 = new JSONObject();
+                    jsonObject2.put("url",navigation3.getNavigation1()+navigation3.getUrl());
+                    jsonObject2.put("navigation1",navigation3.getNavigation1());
+                    jsonArray1.add(jsonObject2);
+                    
+                }
+                jsonObject.put("navigation1", jsonArray1);
+                jsonArray.add(jsonObject);
+            }
+        }
+        model.put("Navigation", jsonArray);
+        return "/neirong/richangguanli/quanxian";
+    }
     
 }

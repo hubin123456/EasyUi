@@ -21,49 +21,8 @@
 
 											},
 											onClick : function(node) {
-												if (node.text == ("库存管理")) {
-													myIframe.location.href = "/EasyUi/kucun.do?";
-												} else if (node.text == ("库存预警")) {
-													myIframe.location.href = "/EasyUi/kucunyujing.do";
-												} else if (node.text == ("出库管理")) {
-													myIframe.location.href = "/EasyUi/chuhuo11.do";
-												} else if (node.text == ("入库管理")) {
-													myIframe.location.href = "/EasyUi/jinghuo.do";
-												} else if (node.text == ("库存盘点")) {
-													myIframe.location.href = "/EasyUi/kucunpandian1.do";
-												} else if (node.text == ("仓库管理")) {
-													myIframe.location.href = "/EasyUi/cangku.do";
-												} else if (node.text == ("人员管理")) {
-													myIframe.location.href = "/EasyUi/renyuan.do";
-												} else if (node.text == ("权限管理")) {
-													myIframe.location.href = "/EasyUi/quanxian.do";
-												}
-
-												else if (node.text == ("采购")) {
-													myIframe.location.href = "/EasyUi/caigoudingdan.do";
-												} else if (node.text == ("采购订单")) {
-													myIframe.location.href = "/EasyUi/caigoulukudan.do";
-												} else if (node.text == ("货物统计报表")) {
-													myIframe.location.href = "/EasyUi/baobiao.do";
-												} else if (node.text == ("供应商交易明细")) {
-													myIframe.location.href = "/EasyUi/gongyingshangjiaoyimingxi.do";
-												} else if (node.text == ("供应商管理")) {
-													myIframe.location.href = "/EasyUi/gongyingshangguanli.do";
-												} else if (node.text == ("客户管理")) {
-													myIframe.location.href = "/EasyUi/kehuguanli.do";
-												} else if (node.text == ("财务统计报表")) {
-													myIframe.location.href = "/EasyUi/caiwutongjibaobiao.do";
-												} else if (node.text == ("客户订单")) {
-													myIframe.location.href = "/EasyUi/kehudingdan.do";
-												} else if (node.text == ("客户交易明细")) {
-													myIframe.location.href = "/EasyUi/kehujiaoyimingxi.do";
-												} else if (node.text == ("提交订单")) {
-													myIframe.location.href = "/EasyUi/tijiaodingdan.do";
-												} else if (node.text == ("商品管理")) {
-													myIframe.location.href = "/EasyUi/shangpingguanli.do";
-												} else if (node.text == ("类别管理")) {
-													myIframe.location.href = "/EasyUi/leiguanli.do";
-												}
+												myIframe.location.href = node.id;
+												
 
 											}
 										});

@@ -48,7 +48,7 @@
 			nowrap : true, //设置为true，当数据长度超出列宽时将会自动截取。
 			striped : true,
 			pageList : [ 1, 3, 5 ],
-			fitColumns : false,
+			fitColumns : true,
 			pageSize : 3,
 			loadMsg : '正在加载数据.......', //当从远程站点载入数据时，显示的一条快捷信息
 			pagination : true, //设置true将在数据表格底部显示分页工具栏

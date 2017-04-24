@@ -31,7 +31,7 @@
 			nowrap : true, //设置为true，当数据长度超出列宽时将会自动截取。
 			striped : true,
 			pageList : [ 1, 3, 5 ],
-			fitColumns : false,
+			fitColumns : true,
 			pageSize : 3,
 			queryParams : {
 				"username" : $("#username").val()

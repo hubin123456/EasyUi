@@ -133,6 +133,7 @@ public class xiaoshouAction {
         xiaoshou.setCount(xiaoshouServiceImpl.querycount(xiaoshou));
         JSONObject json = new JSONObject();
         JSONArray jsonArray = new JSONArray();
+        System.out.println(xiaoshouServiceImpl.querycount(xiaoshou));
         List<xiaoshou> list = xiaoshouServiceImpl.query(xiaoshou);
         for (xiaoshou caozuo2 : list) {
             JSONObject jsonObject = new JSONObject();
@@ -168,7 +169,7 @@ public class xiaoshouAction {
         kehu.setCurrentnum(0);
         kehu.setStatus("出库");
         kehu.setRows(xiaoshouServiceImpl.querycount(kehu));
-        String[] header = new String[] { "出库单编号", "货物名称", "货物单价", "仓库名", "交易总价",
+        String[] header = new String[] { "出库单编号","库存编号", "货物名称", "货物单价", "仓库名", "交易总价",
                 "出库人员", "交易时间" };
         List<Map<String, Object>> list1 = new ArrayList<Map<String, Object>>();
 
@@ -179,6 +180,7 @@ public class xiaoshouAction {
             map1.put("出库单编号", caozuo2.getXiaoshouId());
             kucun kucun = new kucun();
             kucun.setKucunId(caozuo2.getKucunId());
+            map1.put("库存编号", caozuo2.getKucunId());
             map1.put("货物名称",
                     kucunserviceImpl.query1(kucun).get(0).getGoodsName());
 
@@ -217,7 +219,7 @@ public class xiaoshouAction {
         }
         xiaoshou.setRows(xiaoshouServiceImpl.querycount(xiaoshou));
         List<xiaoshou> list = xiaoshouServiceImpl.query(xiaoshou);
-        String[] header = new String[] { "销售单编号", "货物名称", "货物类别", "货物单位",
+        String[] header = new String[] { "销售单编号","库存编号", "货物名称", "货物类别", "货物单位",
                 "货物单价", "供应商", "货物数量", "货物总价", "销售对象", "订单状态", "出库人员", "创建时间" };
         List<Map<String, Object>> list1 = new ArrayList<Map<String, Object>>();
         for (xiaoshou caozuo1 : list) {
@@ -225,6 +227,7 @@ public class xiaoshouAction {
             map1.put("销售单编号", caozuo1.getXiaoshouId());
             kucun kucun = new kucun();
             kucun.setKucunId(caozuo1.getKucunId());
+            map1.put("库存编号", caozuo1.getKucunId());
             map1.put("货物名称",
                     kucunserviceImpl.query1(kucun).get(0).getGoodsName());
 

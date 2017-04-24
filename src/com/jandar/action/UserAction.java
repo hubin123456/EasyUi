@@ -78,28 +78,7 @@ public class UserAction {
 
     }
 
-    // 获取所有的权限
-    @RequestMapping(value = "/quanxian")
-    public String quanxian(ModelMap model, User user,
-            HttpServletRequest request, HttpServletResponse response) {
-        Navigation navigation = new Navigation();
-        Navigation1 navigation1 = new Navigation1();
-        JSONArray jsonArray = new JSONArray();
-        List<Navigation> list = navigationServiceImpl.query(navigation);
-        for (Navigation list1 : list) {
-            navigation1.setNavigationId(list1.getNavigationId());
-            navigation1.setRole("管理员");
-            List<Navigation1> list2 = navigation1ServiceImpl.query(navigation1);
-            JSONObject jsonObject = new JSONObject();
-            if (list2.size() != 0) {
-                jsonObject.put("navigation", list1.getNavigation());
-                jsonObject.put("navigation1", list2);
-                jsonArray.add(jsonObject);
-            }
-        }
-        model.put("Navigation", jsonArray);
-        return "/neirong/richangguanli/quanxian";
-    }
+   
 
     // 人员显示
     @RequestMapping(value = "/renyuanselect")

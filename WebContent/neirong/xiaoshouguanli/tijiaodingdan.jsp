@@ -36,7 +36,7 @@
 					queryParams : {
 						"kucunId" : kucunId
 					},
-					fitColumns : false,
+					fitColumns : true,
 					pageSize : 5,
 					loadMsg : '正在加载数据.......', //当从远程站点载入数据时，显示的一条快捷信息
 					pagination : true, //设置true将在数据表格底部显示分页工具栏

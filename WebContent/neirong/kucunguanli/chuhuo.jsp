@@ -31,7 +31,7 @@
 			nowrap : true, //设置为true，当数据长度超出列宽时将会自动截取。
 			striped : true,
 			pageList : [ 1, 3, 5 ],
-			fitColumns : false,
+			fitColumns : true,
 			pageSize : 3,
 			loadMsg : '正在加载数据.......', //当从远程站点载入数据时，显示的一条快捷信息
 			pagination : true, //设置true将在数据表格底部显示分页工具栏
@@ -176,7 +176,7 @@
 	</div>
 	<div class="neirong2">-->
 	<div class="easyui-tabs" style="width: 100%; height: 600px;">
-		<div title="入库管理" style="padding-top: 20px; display: none;">
+		<div title="出库管理" style="padding-top: 20px; display: none;">
 			<table id="searchTable" align="left" fit="true">
 				<tr>
 					<td width="110px" align="right">出库单编号:</td>

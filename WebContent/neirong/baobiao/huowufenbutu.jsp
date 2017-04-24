@@ -84,7 +84,7 @@
 																						5,
 																						10,
 																						15 ],
-																				fitColumns : false,
+																				fitColumns : true,
 																				pageSize : 5,
 																				queryParams : {
 																					"kucunId" : e.point.name

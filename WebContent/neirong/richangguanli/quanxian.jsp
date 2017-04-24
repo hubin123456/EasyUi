@@ -74,7 +74,7 @@
 					nowrap : true, //设置为true，当数据长度超出列宽时将会自动截取。
 					striped : true,
 					pageList : [ 1, 3, 5 ],
-					fitColumns : false,
+					fitColumns : true,
 					pageSize : 3,
 					loadMsg : '正在加载数据.......', //当从远程站点载入数据时，显示的一条快捷信息
 					pagination : true, //设置true将在数据表格底部显示分页工具栏
@@ -138,10 +138,10 @@
 												+ data[i].navigation + "]")
 										.prop('checked', 'true');
 								for (var a = 0; a < data[i].navigation1.length; a++) {
+									var zong = data[i].navigation1[a].navigation1 + data[i].navigation1[a].url;
+									
 									$(
-											"input:checkbox[value="
-													+ data[i].navigation1[a].navigation1
-													+ "]").prop('checked',
+											"input:checkbox[value='"+zong+"']").prop('checked',
 											'true');
 								}
 							}
@@ -163,17 +163,29 @@
 		var array = [];
 		$("[name='rolezi']:checked").each(
 				function() {
+					
+					var zong =  $(this).val();
+					var navigation1 = zong.substring(0,zong.indexOf("/"));
+					var url = zong.substring(zong.indexOf("/"),zong.length);
+					
 					var object = {
 						"navigation" : $(this).parent().parent().parent().find(
 								"input[name='rolezong']").val(),
-						"navigation1" : $(this).val(),
-						"role" : a
+						"navigation1" : navigation1,
+						"role" : a,
+					    "url" : url
 					};
 					array.push(object);
 				})
 		if (array.length == 0) {
-			alert("不能不选任何权限");
-		} else {
+			var object = {
+					"navigation" :"",
+					"navigation1" : "",
+					"role" : a,
+				    "url" : ""
+				};
+				array.push(object);
+		}
 			$.ajax({
 				type : 'post',
 				url : 'fuyuquanxian.do',
@@ -188,7 +200,7 @@
 					role.datagrid('reload');
 				}
 			})
-		}
+		
 	}
 
 	function submit1() {
@@ -239,7 +251,7 @@
 									<ul style="list-style: none">
 										<c:forEach var="Navigation" items="${Navigation.navigation1}">
 											<li><input type="checkbox" autocomplete="off"
-												value=${Navigation.navigation1 } name="rolezi"><span>${Navigation.navigation1}</span></li>
+												value=${Navigation.url }  name="rolezi"><span>${Navigation.navigation1}</span></li>
 										</c:forEach>
 									</ul>
 							</c:forEach>

@@ -161,6 +161,10 @@ public class roleAction {
             String navigation1 = jsonArray.getJSONObject(i).get("navigation1")
                     .toString();
             String role = jsonArray.getJSONObject(i).get("role").toString();
+            String url = jsonArray.getJSONObject(i).get("url").toString();
+         
+            if(navigation1.equals("")){
+            }else{
             Navigation1 Navigation1 = new Navigation1();
             //给navigation赋值
             Navigation1.setNavigation1(navigation1);
@@ -170,9 +174,9 @@ public class roleAction {
                     TimeUtil.timeToString(TimeUtil.currentTime()));
             Navigation1.setId("");
             Navigation1.setImage("icon-zidaohang");
-            Navigation1.setUrl("");
+            Navigation1.setUrl(url);
             navigation1ServiceImpl.insert(Navigation1);
-
+            }
         }
         jsonObject.put("result", "success");
         return jsonObject.toString();

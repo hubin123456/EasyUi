@@ -54,6 +54,7 @@ public class gongyingshangAction {
         return jsonArray;
     }
 
+    //创建供应商
     @RequestMapping(value = "/createSupplier")
     @ResponseBody
     public String createSupplier(ModelMap map, gongyingshang gongyingshang,
@@ -72,6 +73,7 @@ public class gongyingshangAction {
         }
     }
 
+    //编辑供应商
     @RequestMapping(value = "/editSupplier")
     @ResponseBody
     public String editSupplier(ModelMap map, gongyingshang gongyingshang,
@@ -90,6 +92,7 @@ public class gongyingshangAction {
         }
     }
 
+    //datagrid供应商
     @RequestMapping(value = "/gongyingshang")
     @ResponseBody
     public JSONObject gongyingshang(ModelMap map, gongyingshang gongyingshang,
@@ -106,6 +109,7 @@ public class gongyingshangAction {
         return json;
     }
 
+    //供应商交易
     @RequestMapping(value = "/gongyingshangjiaoyi")
     @ResponseBody
     public JSONObject gongyingshangjioayi(ModelMap map,
@@ -140,6 +144,7 @@ public class gongyingshangAction {
         return json;
     }
 
+    //交易导出
     @RequestMapping(value = "/gongyingshangyiExport")
     public void gongyingshangyiExport(ModelMap map, caozuo caozuo,
             HttpServletRequest request, HttpServletResponse response) {
@@ -175,7 +180,8 @@ public class gongyingshangAction {
         }
 
     }
-
+    
+    //供应商导出
     @RequestMapping(value = "/ gongyingshangExport")
     public void gongyingshangExport(ModelMap map, HttpServletRequest request,
             HttpServletResponse response) {

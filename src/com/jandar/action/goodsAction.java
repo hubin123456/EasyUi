@@ -36,6 +36,7 @@ public class goodsAction {
     @Autowired
     private goodsServiceImpl goodsServiceImpl;
 
+    //datagrid分页
     @RequestMapping(value = "/goodschaxun")
     @ResponseBody
     public JSONObject gooodschaxun(HttpServletRequest request,
@@ -55,6 +56,7 @@ public class goodsAction {
 
     }
 
+    //编辑商品
     @RequestMapping(value = "/editgoods")
 
     public String editgoods(HttpServletRequest request,
@@ -89,6 +91,7 @@ public class goodsAction {
 
     }
 
+    //添加 上传
     @RequestMapping(value = "/addgoods")
 
     public String addgoods(HttpServletRequest request,
@@ -120,6 +123,7 @@ public class goodsAction {
 
     }
 
+    //下架
     @RequestMapping(value = "/goodsxiajia")
     @ResponseBody
     public String gooodsxiajia(HttpServletRequest request,
@@ -137,6 +141,7 @@ public class goodsAction {
 
     }
 
+    //查询
     @RequestMapping(value = "/goodschaxun1")
     @ResponseBody
     public String gooodschaxun1(HttpServletRequest request,
@@ -148,7 +153,8 @@ public class goodsAction {
         return jsonArray.toString();
 
     }
-
+   
+    //combobox 货物
     @RequestMapping(value = "/goodsselect")
     @ResponseBody
     public JSONArray goodsselect(HttpServletRequest request,
@@ -160,30 +166,8 @@ public class goodsAction {
         return jsonArray;
     }
 
-    @RequestMapping(value = "/goods")
-    @ResponseBody
-    public JSONArray select(HttpServletResponse response, kucun kucun,
-            HttpServletRequest request) {
-        kucun.setCurrentnum(0);
-        kucun.setRows(kucunServiceImpl.querycount(kucun));
-        JSONArray jsonArray = new JSONArray();
-        JSONObject jsonObject = new JSONObject();
-        JSONObject jsonObject1 = new JSONObject();
-        String[] goodsName = new String[kucunServiceImpl.query(kucun).size()];
-        String[] goodsNumber = new String[kucunServiceImpl.query(kucun).size()];
-        for (int i = 0; i < kucunServiceImpl.query(kucun).size(); i++) {
-            goodsName[i] = kucunServiceImpl.query(kucun).get(i).getGoodsName();
-            goodsNumber[i] = kucunServiceImpl.query(kucun).get(i)
-                    .getKucunNumber();
-        }
-        jsonObject.put("goodsName", goodsName);
-        jsonObject1.put("goodsNumber", goodsNumber);
-        jsonArray.add(jsonObject);
-        jsonArray.add(jsonObject1);
-        System.out.println(jsonArray);
-        return jsonArray;
-    }
-
+  
+ //货物饼图
     @RequestMapping(value = "/goods1")
     @ResponseBody
     public JSONArray goods1(HttpServletResponse response,
@@ -213,46 +197,5 @@ public class goodsAction {
         return jsonArray;
     }
 
-    @RequestMapping(value = "/goods2")
-    @ResponseBody
-    public JSONArray goods2(HttpServletResponse response,
-            HttpServletRequest request) {
-        kucun kucun = new kucun();
-        kucun.setWarehouseName(request.getParameter("warehouseName"));
-        kucun.setCurrentnum(0);
-        kucun.setRows(kucunServiceImpl.querycount(kucun));
-        JSONArray jsonArray = new JSONArray();
-        JSONArray jsonArray1 = new JSONArray();
-        List<Integer> arraylist = new ArrayList<Integer>();
-        List<String> namelist = new ArrayList<String>();
-        double sum = 0;
-        int sum1 = 0;
-        List<kucun> list = kucunServiceImpl.query(kucun);
-        for (kucun kucun1 : list) {
-            kucun kucun2 = new kucun();
-            kucun2.setGoodsName(kucun1.getGoodsName());
-            kucun2.setCurrentnum(0);
-            kucun2.setRows(kucunServiceImpl.querycount(new kucun()));
-            JSONObject jsonObject = new JSONObject();
-            namelist.add(kucun1.getGoodsName());
-            for (kucun kucun3 : list) {
-                if (Integer.valueOf(kucun1.getKucunId()) == Integer
-                        .valueOf(kucun3.getKucunId())) {
-                    arraylist.add(Integer.valueOf(kucun3.getKucunNumber()));
-                } else {
-                    arraylist.add(0);
-                }
-            }
-            jsonObject.put("data", arraylist);
-            jsonArray.add(jsonObject);
-            sum1 = 0;
-            arraylist.clear();
-            System.out.println(jsonArray);
-
-        }
-        jsonArray1.add(namelist);
-        namelist.clear();
-        jsonArray1.add(jsonArray);
-        return jsonArray1;
-    }
+    
 }

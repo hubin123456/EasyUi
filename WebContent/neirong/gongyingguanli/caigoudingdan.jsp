@@ -31,7 +31,7 @@
 		// });
 		// });
 		goods = $("#goods").datagrid({
-
+			
 			striped : true, //奇行不同颜色
 			pageList : [ 1, 3, 5 ],
 			fitColumns : true, //列自适应
@@ -192,15 +192,15 @@
 			<table id="goods" style="height: 435px;">
 				<thead>
 					<tr>
-						<th align="center" width="100" field="goodsId">货物编号</th>
-						<th align="center" field="goodsName" width="100">货物名称</th>
-						<th align="center" name="goodsImage" data-options="formatter:a"
-							field="goodsImage" width="150">货物图片</th>
-						<th align="center" field="goodsLei" width="100">货物类别</th>
-						<th align="center" field="goodsUnit" width="100">货物单位</th>
-						<th align="center" field="goodsPrice" width="150">货物价格</th>
-						<th align="center" field="supplierName" width="100">供应商</th>
-						<th align="center" field="createTime" width="100">创建时间</th>
+						<th data-options="align:'center', width:100, field:'goodsId'">货物编号</th>
+						<th data-options="align:'center', field:'goodsName', width:100">货物名称</th>
+						<th  name="goodsImage" data-options="formatter:a,align:'center',field:'goodsImage' ,width:150"
+							>货物图片</th>
+						<th data-options="align:'center', field:'goodsLei', width:100">货物类别</th>
+						<th data-options="align:'center', field:'goodsUnit', width:100">货物单位</th>
+						<th data-options="align:'center' ,field:'goodsPrice', width:150">货物价格</th>
+						<th data-options="align:'center', field:'supplierName',width:100">供应商</th>
+						<th data-options="align:'center', field:'createTime' ,width:100">创建时间</th>
 					</tr>
 				</thead>
 
