@@ -59,7 +59,7 @@
 				&& $("#sumPrice").textbox('getValue')) {
 			if ($("#kucunId").combobox('getValue') == ""
 					|| $("#goodsNumber").textbox('getValue') == ""
-					|| $("#username1").combobox('getValue') == ""
+					|| $("#username1").textbox('getValue') == ""
 					|| $("#kehuName").combobox('getValue') == ""
 					|| $("#sumPrice").textbox('getValue') == "") {
 
@@ -73,7 +73,7 @@
 					dataType : 'json',
 					success : function(data) {
 						alert(data.result);
-						if (data.result == "提交成功") {
+						if (data.result == "提交成功,等待审核") {
 							location.reload();
 						}
 					}
@@ -103,11 +103,7 @@
 							style="width: 100px; height: 21px;"></select>
 						&nbsp;&nbsp;&nbsp;输入数量: <input id="goodsNumber" name="goodsNumber"
 							style="width: 100px; height: 21px;" class="easyui-textbox"
-							data-options="prompt:'输入数量'"> &nbsp;&nbsp;&nbsp;经办人: <select
-							id="username1" style="width: 100px; height: 21px;"
-							name="username"
-							data-options="valueField:'username',textField:'username',url:'renyuanselect1.do'"
-							class="easyui-combobox" editable="false"></select>
+							data-options="prompt:'输入数量'"> &nbsp;&nbsp;&nbsp;经办人: <input type="text" name="username" id="username1" class="easyui-textbox" value=<%=request.getSession().getAttribute("user")%> readonly="true" style="width:100px;height:30px;">
 						&nbsp;&nbsp;&nbsp;客户报价: <input id="sumPrice" name="sumPrice"
 							style="width: 100px; height: 21px;" class="easyui-textbox"
 							data-options="prompt:'输入价格'"> &nbsp;&nbsp;&nbsp; <input

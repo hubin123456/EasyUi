@@ -85,7 +85,7 @@
 				$('#kucunId').combobox('setValue', '');
 				//alert($('#goodsNamediaochu').combobox('getValue'));
 				$('#kucunpandianNumber').textbox('setValue', '');
-				$('#username').combobox('setValue', '');
+				$('#username').textbox('setValue', '');
 
 			}
 		});
@@ -121,7 +121,7 @@
 		if (!isNaN($("#kucunpandianNumber").textbox('getValue'))) {
 			if ($("#kucunId").combobox('getValue') == ""
 					|| $("#kucunpandianNumber").textbox('getValue') == ""
-					|| $("#username").combobox('getValue') == "") {
+					|| $("#username").textbox('getValue') == "") {
 
 				alert("信息不能为空");
 			} else {
@@ -179,11 +179,7 @@
 						<center>
 							选择要盘点的库存:<select name="kucunId" id="kucunId"
 								style="width: 100px; height: 21px;"></select>
-							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 经办人:<select
-								id="username" style="width: 100px; height: 21px;"
-								name="username"
-								data-options="valueField:'username',textField:'username',url:'renyuanselect1.do'"
-								class="easyui-combobox" editable="false"></select>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 经办人:<input type="text" name="username" id="username" class="easyui-textbox" value=<%=request.getSession().getAttribute("user")%> readonly="true" style="width:100px;height:30px;">
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 实际数量:<input
 								id="kucunpandianNumber" name="kucunpandianNumber"
 								style="width: 100px; height: 21px;" class="easyui-textbox"

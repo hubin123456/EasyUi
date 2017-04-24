@@ -109,7 +109,10 @@
 
 	})
 	function caigou1() {
-
+        if(!isNaN($("#number").textbox('getValue'))){
+        	if($("#number").textbox('getValue')=="" || $("#warehouseName").combobox('getValue')==""){
+                alert("信息不能为空");
+        	}else{
 		var row = $("#goods").datagrid('getSelected');
 		var sumPrice = row.goodsPrice * $("#number").textbox('getValue');
 		$.ajax({
@@ -137,22 +140,13 @@
 					alert("采购失败");
 				}
 			}
-		})
+		});
+        }}else{
+            alert("必须为数字");	
+        }
+        
 	}
-	function jia() {
-		var number = $("#number").html();
-		number++;
-		$("#number").html(number);
-	}
-	function jian() {
-		var number = $("#number").html();
-		if (number == 1) {
-			alert("不能为0")
-		} else {
-			number--;
-			$("#number").html(number);
-		}
-	}
+	
 	function a(v) {
 
 		return '<img width="100" height="50" src="'+v+'"/>';
