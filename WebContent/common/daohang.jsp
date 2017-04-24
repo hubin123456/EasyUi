@@ -21,8 +21,11 @@
 
 											},
 											onClick : function(node) {
+												if(node.id==""){
+													
+												}else{
 												myIframe.location.href = node.id;
-												
+												}
 
 											}
 										});

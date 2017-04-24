@@ -122,7 +122,7 @@ public class navigationAction {
                 jsonObject.put("children", jsonArray);
                 //jsonObject.put("state", "closed");
                 jsonObject.put("iconCls", list1.getImage());
-                
+                jsonObject.put("id", "");
                 jsonArray1.add(jsonObject);
             }
         }
